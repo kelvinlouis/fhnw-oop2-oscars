@@ -1,0 +1,28 @@
+.form-label {
+    -fx-text-fill: #666;
+    -fx-font-weight: bold;
+}
+
+.h1 {
+    -fx-font-size: 16pt;
+    -fx-font-weight: bold;
+}
+
+.h2  {
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+}
+
+.flag {
+    -fx-image: url("../resources/flags/ch.png");
+    -fx-max-height: 24px;
+    -fx-max-width: 24px;
+}
+
+.poster {
+    -fx-image: url("../resources/posters/2.jpg");
+}
+
+.oscar {
+    -fx-image: url("../resources/oscar.png");
+}

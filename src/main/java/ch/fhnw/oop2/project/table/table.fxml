@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columns>
+          <TableColumn minWidth="30.0" prefWidth="30.0" />
+          <TableColumn minWidth="50.0" prefWidth="50.0" text="Year" />
+            <TableColumn minWidth="200.0" prefWidth="200.0" text="Title" />
+            <TableColumn minWidth="120.0" prefWidth="120.0" text="Director" />
+            <TableColumn maxWidth="-Infinity" minWidth="200.0" prefWidth="-1.0" text="Main Actors" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

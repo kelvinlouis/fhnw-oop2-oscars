@@ -1,0 +1,38 @@
+.button {
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+
+    -fx-pref-width: 52;
+    -fx-pref-height: 52;
+    -fx-max-height: 52;
+    -fx-max-width: 52;
+    -fx-min-height: 52;
+    -fx-min-width: 52;
+}
+
+#save {
+    -fx-background-image: url("../resources/icons/save.svg.png");
+}
+
+#add {
+    -fx-background-image: url("../resources/icons/add.svg.png");
+}
+
+#remove {
+    -fx-background-image: url("../resources/icons/remove.svg.png");
+}
+
+#undo {
+    -fx-background-image: url("../resources/icons/undo.svg.png");
+}
+
+#redo {
+    -fx-background-image: url("../resources/icons/redo.svg.png");
+}
+
+.filter {
+    -fx-background-image: url("../resources/icons/find.svg.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: right;
+    -fx-padding: 2px 16px 2px 2px;
+}
