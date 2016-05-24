@@ -1,7 +1,106 @@
 package ch.fhnw.oop2.project;
 
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Created by Kelvin on 07-May-16.
  */
-public class MovieService {
+public class MovieService implements DataService<Movie> {
+    private final String FILE_PATH = "resources/movies.csv";
+
+    private static MovieService instance = new MovieService();
+
+    private MovieService() {}
+
+    public static MovieService getInstance() {
+        return instance;
+    }
+
+    @Override
+    public List<Movie> getAll() {
+        try {
+            InputStream stream = new FileInputStream(FILE_PATH);
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(stream, Charset.forName("UTF-8")));
+
+            return buffer
+                    .lines()
+                    .skip(1)
+                    .map(s -> s.split(";"))
+                    .map(parts -> mapLineToMovie(parts))
+                    .collect(Collectors.toList());
+        } catch (Exception exception) {
+
+        }
+        return null;
+    }
+
+    @Override
+    public void save(List<Movie> list) {
+        List<String> lines = new ArrayList<>();
+        File file = new File(FILE_PATH);
+
+        lines.add(createCSVHeaderLine());
+        list.forEach(movie -> lines.add(createCSVMovieLine(movie)));
+
+        try {
+            Files.write(file.toPath(), lines, Charset.forName("UTF-8"));
+        } catch(IOException exception) {
+
+        }
+    }
+
+    @Override
+    public Movie createItem() {
+        return null;
+    }
+
+    private Movie mapLineToMovie(String[] parts) {
+        Movie movie = new Movie();
+
+        movie.setId(Integer.parseInt(parts[0]));
+        movie.setTitle(parts[1]);
+        movie.setYearOfAward(Integer.parseInt(parts[2]));
+        movie.getDirector().addAll(parts[3].split(", "));
+        movie.getMainActor().addAll(parts[4].split(", "));
+        movie.setTitleEnglish(parts[5]);
+        movie.setYearOfAward(Integer.parseInt(parts[6]));
+        movie.getCountry().addAll(parts[7].split("/"));
+        movie.setDuration(Integer.parseInt(parts[8]));
+        movie.setFsk(Integer.parseInt(parts[9]));
+        movie.getGenre().addAll(parts[10].split(", "));
+        movie.setStartDate(parts[11]);
+        movie.setNumberOfOscars(Integer.parseInt(parts[12]));
+
+        return movie;
+    }
+
+    private String createCSVHeaderLine() {
+        return "#id;Title;yearOfAward;director;mainActor;titleEnglish;yearOfProduction;country;duration;fsk;genre;startDate;numberOfOscars";
+    }
+
+    private String createCSVMovieLine(Movie movie) {
+        StringBuilder builder = new StringBuilder();
+
+        builder
+                .append(movie.getId()).append(";")
+                .append(movie.getTitle()).append(";")
+                .append(movie.getYearOfAward()).append(";")
+                .append(String.join(", ", movie.getDirector())).append(";")
+                .append(String.join(", ", movie.getMainActor())).append(";")
+                .append(movie.getTitleEnglish()).append(";")
+                .append(movie.getYearOfProduction()).append(";")
+                .append(String.join("/", movie.getCountry())).append(";")
+                .append(movie.getDuration()).append(";")
+                .append(movie.getFsk()).append(";")
+                .append(String.join(", ", movie.getGenre())).append(";")
+                .append(movie.getStartDate()).append(";")
+                .append(movie.getNumberOfOscars());
+
+        return builder.toString();
+    }
 }
