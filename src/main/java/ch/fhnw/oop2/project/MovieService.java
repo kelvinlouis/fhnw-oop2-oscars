@@ -24,7 +24,7 @@ public class MovieService implements DataService<Movie> {
     @Override
     public List<Movie> getAll() {
         try {
-            InputStream stream = new FileInputStream(FILE_PATH);
+            InputStream stream = getClass().getResourceAsStream(FILE_PATH);
             BufferedReader buffer = new BufferedReader(new InputStreamReader(stream, Charset.forName("UTF-8")));
 
             return buffer
@@ -34,7 +34,7 @@ public class MovieService implements DataService<Movie> {
                     .map(parts -> mapLineToMovie(parts))
                     .collect(Collectors.toList());
         } catch (Exception exception) {
-
+            System.out.println(exception.getMessage());
         }
         return null;
     }

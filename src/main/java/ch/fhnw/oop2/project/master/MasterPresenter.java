@@ -1,5 +1,6 @@
 package ch.fhnw.oop2.project.master;
 
+import ch.fhnw.oop2.project.DataService;
 import ch.fhnw.oop2.project.editor.EditorPresenter;
 import ch.fhnw.oop2.project.editor.EditorView;
 import ch.fhnw.oop2.project.table.TablePresenter;
@@ -33,6 +34,12 @@ public class MasterPresenter implements Initializable {
     private EditorView editorView;
     private EditorPresenter editorPresenter;
 
+    private DataService service;
+
+    public MasterPresenter(DataService service) {
+        this.service = service;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         createToolbar();
@@ -41,18 +48,22 @@ public class MasterPresenter implements Initializable {
     }
 
     private void createToolbar() {
-        toolbarView = new ToolbarView();
+        toolbarPresenter = new ToolbarPresenter();
+        toolbarView = new ToolbarView(toolbarPresenter);
         borderPane.setTop(toolbarView.getView());
     }
 
     private void createTableView() {
-        tableView = new TableView();
+        tablePresenter = new TablePresenter();
+        tableView = new TableView(tablePresenter);
         splitPane.getItems().add(tableView.getView());
+
+        tablePresenter.setList(service.getAll());
     }
 
     private void createEditorView() {
-        editorView = new EditorView();
+        editorPresenter = new EditorPresenter();
+        editorView = new EditorView(editorPresenter);
         splitPane.getItems().add(editorView.getView());
-
     }
 }

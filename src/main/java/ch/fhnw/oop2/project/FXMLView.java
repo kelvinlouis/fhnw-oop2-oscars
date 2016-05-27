@@ -12,16 +12,21 @@ import java.net.URL;
  */
 public abstract class FXMLView extends StackPane {
     private Parent view;
+    private Object presenter;
 
     protected final String FXMLFileName;
     protected final String CSSFileName;
 
-    public FXMLView(String fxml, String css) {
+    public FXMLView(String fxml, String css, Object presenter) {
         FXMLFileName = fxml;
         CSSFileName = css;
+        this.presenter = presenter;
 
         try {
-            view = FXMLLoader.load(getClass().getResource(FXMLFileName));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXMLFileName));
+            loader.setController(presenter);
+            view = loader.load();
+
             addCSS();
         } catch (IOException e) {
             e.printStackTrace();
@@ -36,5 +41,9 @@ public abstract class FXMLView extends StackPane {
 
     public Parent getView() {
         return view;
+    }
+
+    public Object getPresenter() {
+        return presenter;
     }
 }
