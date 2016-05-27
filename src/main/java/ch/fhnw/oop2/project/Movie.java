@@ -1,11 +1,11 @@
 package ch.fhnw.oop2.project;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 /**
  * Created by Kelvin on 07-May-16.
@@ -22,7 +22,7 @@ public class Movie {
     private IntegerProperty duration = new SimpleIntegerProperty();
     private IntegerProperty fsk = new SimpleIntegerProperty();
     private ObservableList<String> genre = FXCollections.observableArrayList();
-    private StringProperty startDate = new SimpleStringProperty();
+    private ObjectProperty<Optional<LocalDate>> startDate = new SimpleObjectProperty<>();
     private IntegerProperty numberOfOscars = new SimpleIntegerProperty();
 
     public Movie() {
@@ -145,15 +145,15 @@ public class Movie {
         this.genre = genre;
     }
 
-    public String getStartDate() {
+    public Optional<LocalDate> getStartDate() {
         return startDate.get();
     }
 
-    public StringProperty startDateProperty() {
+    public ObjectProperty<Optional<LocalDate>> startDateProperty() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Optional<LocalDate> startDate) {
         this.startDate.set(startDate);
     }
 

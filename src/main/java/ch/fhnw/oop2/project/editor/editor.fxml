@@ -40,23 +40,18 @@
                       <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label styleClass="h2" text="1931" />
-                        <HBox spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
-                           <children>
-                              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" styleClass="flag" />
-                              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" styleClass="flag" />
-                           </children>
-                        </HBox>
+                        <Label fx:id="yearOfAwardLabel" styleClass="h2" text="1931" />
+                        <HBox fx:id="flagsContainer" spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                      </children>
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </GridPane>
-                  <Label styleClass="h1" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit." GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                  <Label fx:id="titleLabel" styleClass="h1" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit." GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                   <HBox GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                      <children>
                         <Label styleClass="h2" text="by" />
-                        <Label styleClass="h2" text="Kelvin Louis aka MADAFAKA">
+                        <Label fx:id="directorLabel" styleClass="h2" text="Kelvin Louis aka MADAFAKA">
                            <HBox.margin>
                               <Insets left="3.0" />
                            </HBox.margin>
@@ -66,15 +61,15 @@
                   <HBox GridPane.hgrow="ALWAYS" GridPane.rowIndex="3">
                      <children>
                         <Label styleClass="h2" text="starring" />
-                        <Label styleClass="h2" text="Kelvin Louis aka Madafaka">
+                        <Label fx:id="mainActorLabel" styleClass="h2" text="Kelvin Louis aka Madafaka">
                            <HBox.margin>
                               <Insets left="3.0" />
                            </HBox.margin>
                         </Label>
                      </children>
                   </HBox>
-                  <ImageView fitHeight="52.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="oscar" GridPane.rowIndex="4" />
-                  <ImageView fitHeight="162.0" fitWidth="118.0" pickOnBounds="true" preserveRatio="true" styleClass="poster" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowSpan="2147483647" />
+                  <HBox fx:id="oscarsContainer" spacing="10.0" GridPane.rowIndex="4" />
+                  <ImageView fx:id="posterImage" fitHeight="162.0" fitWidth="118.0" pickOnBounds="true" preserveRatio="true" styleClass="poster" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowSpan="2147483647" />
                </children>
             </GridPane>
             <GridPane hgap="20.0" maxWidth="1.7976931348623157E308" minWidth="480.0" prefHeight="282.0" vgap="20.0">
@@ -97,7 +92,7 @@
               </rowConstraints>
                <children>
                   <Label prefHeight="17.0" prefWidth="125.0" styleClass="form-label" text="Year" />
-                  <Label styleClass="form-label" text="Titel" GridPane.rowIndex="1" />
+                  <Label styleClass="form-label" text="Title" GridPane.rowIndex="1" />
                   <Label styleClass="form-label" text="Director" GridPane.rowIndex="2" />
                   <Label styleClass="form-label" text="Actors" GridPane.rowIndex="3" />
                   <Label styleClass="form-label" text="Title (en)" GridPane.rowIndex="4" />
@@ -108,18 +103,18 @@
                   <Label styleClass="form-label" text="Production Year" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                   <Label styleClass="form-label" text="Duration (minutes)" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                   <Label styleClass="form-label" text="Launch Date" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                  <Spinner GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
-                  <TextField GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
-                  <TextField GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" />
-                  <TextField GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" />
-                  <Spinner GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                  <Spinner GridPane.columnIndex="3" GridPane.rowIndex="6" />
-                  <Spinner GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                  <ComboBox fx:id="fsk" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <DatePicker GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" />
+                  <Spinner fx:id="yearOfAwardSpinner" GridPane.columnIndex="1" />
+                  <TextField fx:id="titleTextField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                  <TextField fx:id="directorTextField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                  <TextField fx:id="mainActorTextField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                  <TextField fx:id="titleEnTextField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
+                  <TextField fx:id="genreTextField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" />
+                  <TextField fx:id="countryTextField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" />
+                  <Spinner fx:id="productionYearSpinner" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                  <Spinner fx:id="durationSpinner" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                  <Spinner fx:id="oscarsSpinner" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <ComboBox fx:id="fskComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <DatePicker fx:id="launchDatePicker" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" />
                </children>
                <VBox.margin>
                   <Insets top="40.0" />

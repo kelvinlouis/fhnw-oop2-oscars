@@ -22,7 +22,3 @@
 .poster {
     -fx-image: url("../resources/posters/2.jpg");
 }
-
-.oscar {
-    -fx-image: url("../resources/oscar.png");
-}

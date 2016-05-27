@@ -3,8 +3,13 @@ package ch.fhnw.oop2.project;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.*;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -68,12 +73,19 @@ public class MovieService implements DataService<Movie> {
         movie.getDirector().addAll(parts[3].split(", "));
         movie.getMainActor().addAll(parts[4].split(", "));
         movie.setTitleEnglish(parts[5]);
-        movie.setYearOfAward(Integer.parseInt(parts[6]));
+        movie.setYearOfProduction(Integer.parseInt(parts[6]));
         movie.getCountry().addAll(parts[7].split("/"));
         movie.setDuration(Integer.parseInt(parts[8]));
         movie.setFsk(Integer.parseInt(parts[9]));
         movie.getGenre().addAll(parts[10].split(", "));
-        movie.setStartDate(parts[11]);
+
+        try {
+            LocalDate startDate = LocalDate.parse(parts[11], DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            movie.setStartDate(Optional.of(startDate));
+        } catch (DateTimeParseException ex) {
+            movie.setStartDate(Optional.empty());
+        }
+
         movie.setNumberOfOscars(Integer.parseInt(parts[12]));
 
         return movie;
@@ -98,7 +110,7 @@ public class MovieService implements DataService<Movie> {
                 .append(movie.getDuration()).append(";")
                 .append(movie.getFsk()).append(";")
                 .append(String.join(", ", movie.getGenre())).append(";")
-                .append(movie.getStartDate()).append(";")
+                .append(movie.getStartDate().isPresent() ? movie.getStartDate().toString() : "-")
                 .append(movie.getNumberOfOscars());
 
         return builder.toString();

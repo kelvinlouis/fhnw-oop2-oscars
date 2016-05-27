@@ -45,6 +45,13 @@ public class MasterPresenter implements Initializable {
         createToolbar();
         createTableView();
         createEditorView();
+        initializeListeners();
+    }
+
+    private void initializeListeners() {
+        tablePresenter.selectedMovieProperty().addListener((observable, oldValue, newValue) -> {
+            editorPresenter.selectedMovieProperty().set(newValue);
+        });
     }
 
     private void createToolbar() {
