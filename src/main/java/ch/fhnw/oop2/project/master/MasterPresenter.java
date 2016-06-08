@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Kelvin on 07-May-16.
  */
-public class MasterPresenter implements Initializable, TableActionsListener, ToolbarActionsListener {
+public class MasterPresenter implements Initializable, ToolbarActionsListener {
     private ObjectProperty<Movie> selectedMovie = new SimpleObjectProperty<>();
 
     @FXML
@@ -56,7 +56,8 @@ public class MasterPresenter implements Initializable, TableActionsListener, Too
     }
 
     private void initializeListeners() {
-        tablePresenter.setListener(this);
+        // Table informs editor of changes
+        tablePresenter.setListener(editorPresenter);
     }
 
     private void createToolbar() {
@@ -79,33 +80,6 @@ public class MasterPresenter implements Initializable, TableActionsListener, Too
         editorPresenter = new EditorPresenter();
         editorView = new EditorView(editorPresenter);
         splitPane.getItems().add(editorView.getView());
-    }
-
-    @Override
-    public void onSelectedMovieChange(Movie movie) {
-        selectedMovie.setValue(movie);
-
-        editorPresenter.selectedMovieProperty().setValue(movie);
-    }
-
-    @Override
-    public void onYearOfAwardChange(int year) {
-        selectedMovie.get().yearOfAwardProperty().set(year);
-    }
-
-    @Override
-    public void onTitleChange(String title) {
-        selectedMovie.get().titleProperty().set(title);
-    }
-
-    @Override
-    public void onMainActorChange(String actors) {
-        selectedMovie.get().mainActorProperty().set(actors);
-    }
-
-    @Override
-    public void onDirectorChange(String directors) {
-        selectedMovie.get().directorProperty().set(directors);
     }
 
     @Override
