@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -24,6 +25,27 @@ public class Movie {
     private ObservableList<String> genre = FXCollections.observableArrayList();
     private ObjectProperty<Optional<LocalDate>> startDate = new SimpleObjectProperty<>();
     private IntegerProperty numberOfOscars = new SimpleIntegerProperty();
+
+    @FunctionalInterface
+    public interface MovieStringSetter {
+        void set(Movie movie, String value);
+    }
+
+    @FunctionalInterface
+    public interface MovieIntegerSetter {
+        void set(Movie movie, int value);
+    }
+
+    @FunctionalInterface
+    public interface MovieDateSetter {
+        void set(Movie movie, Optional<LocalDate> value);
+    }
+
+    @FunctionalInterface
+    public interface MovieListGetter {
+        ObservableList<String> get(Movie movie);
+    }
+
 
     public Movie() {
 

@@ -3,7 +3,6 @@ package ch.fhnw.oop2.project;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.*;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;

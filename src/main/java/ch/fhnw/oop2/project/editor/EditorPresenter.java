@@ -25,6 +25,9 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -104,9 +107,9 @@ public class EditorPresenter implements Initializable{
     }
 
     class FlagView extends ImageView {
-        FlagView(String flag) {
-            URL url = getClass().getResource("../resources/flags/" + flag.toLowerCase() + ".png");
-
+        FlagView(String country) {
+            URL url = getClass().getResource("../resources/flags/" + country.toLowerCase() + ".png");
+            System.out.println(country);
             if (url != null) {
                 setImage(new Image(url.toExternalForm()));
             } else {
@@ -117,7 +120,6 @@ public class EditorPresenter implements Initializable{
             setPreserveRatio(true);
         }
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -139,6 +141,7 @@ public class EditorPresenter implements Initializable{
                 titleEnTextField.textProperty().unbindBidirectional(oldValue.titleEnglishProperty());
             }
 
+            // todo unbind?
             yearOfAwardLabel.textProperty().bind(newValue.yearOfAwardProperty().asString());
             yearOfAwardSpinner.setValueFactory(createSpinnerFactory(0, MAX_YEAR, newValue.getYearOfAward()));
             titleTextField.textProperty().bindBidirectional(newValue.titleProperty());
@@ -156,20 +159,65 @@ public class EditorPresenter implements Initializable{
 //            setFlags(newValue.getCountry());
         });
 
-        oscarsSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
-            List<Node> oscars = IntStream.range(0, newValue)
-                    .mapToObj(i -> new OscarView())
-                    .collect(Collectors.toList());
+        addListener(titleTextField, Movie::setTitle);
+        addListener(titleEnTextField, Movie::setTitleEnglish);
+        addListener(yearOfAwardSpinner, Movie::setYearOfAward);
+        addListener(productionYearSpinner, Movie::setYearOfProduction);
+        addListener(durationSpinner, Movie::setDuration);
+        addListener(launchDatePicker, Movie::setStartDate);
+        addListener(mainActorTextField, Movie::getMainActor, ",");
+        addListener(directorTextField, Movie::getMainActor, ",");
+        addListener(countryTextField, Movie::getCountry, "/", countries -> setFlags(countries));
+        addListener(oscarsSpinner, Movie::setNumberOfOscars, i -> setOscars(i));
+    }
 
-            oscarsContainer.getChildren().clear();
-            oscarsContainer.getChildren().addAll(oscars);
-        });
-
-        countryTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+    private void addListener(TextInputControl element, Movie.MovieStringSetter setter) {
+        element.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                setFlags(selectedMovie.get().getCountry());
+                setter.set(selectedMovie.get(), newValue);
             }
         });
+    }
+
+    private void addListener(Spinner element, Movie.MovieIntegerSetter setter, Consumer<Integer> con) {
+        element.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                setter.set(selectedMovie.get(), (int) newValue);
+
+                if (con != null) {
+                    con.accept((int) newValue);
+                }
+            }
+        });
+    }
+
+    private void addListener(Spinner element, Movie.MovieIntegerSetter setter) {
+        addListener(element, setter, null);
+    }
+
+    private void addListener(DatePicker element, Movie.MovieDateSetter setter) {
+        element.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                setter.set(selectedMovie.get(), Optional.of(newValue));
+            }
+        });
+    }
+
+    private void addListener(TextInputControl element, Movie.MovieListGetter getter, String splitter, Consumer<List<String>> con) {
+        element.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                List<String> newList = Arrays.asList(newValue.split(splitter));
+                getter.get(selectedMovie.get()).setAll(newList);
+
+                if (con != null) {
+                    con.accept(newList);
+                }
+            }
+        });
+    }
+
+    private void addListener(TextInputControl element, Movie.MovieListGetter getter, String splitter) {
+        addListener(element, getter, splitter, null);
     }
 
     private SpinnerValueFactory.IntegerSpinnerValueFactory createSpinnerFactory(int min, int max, int v) {
@@ -195,6 +243,15 @@ public class EditorPresenter implements Initializable{
         } else {
             posterImage.setImage(null);
         }
+    }
+
+    private void setOscars(int nr) {
+        List<Node> oscars = IntStream.range(0, nr)
+                .mapToObj(i -> new OscarView())
+                .collect(Collectors.toList());
+
+        oscarsContainer.getChildren().clear();
+        oscarsContainer.getChildren().addAll(oscars);
     }
 
     private void changeFSKValues() {
