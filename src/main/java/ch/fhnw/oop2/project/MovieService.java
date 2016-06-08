@@ -69,14 +69,14 @@ public class MovieService implements DataService<Movie> {
         movie.setId(Integer.parseInt(parts[0]));
         movie.setTitle(parts[1]);
         movie.setYearOfAward(Integer.parseInt(parts[2]));
-        movie.getDirector().addAll(parts[3].split(", "));
-        movie.getMainActor().addAll(parts[4].split(", "));
+        movie.setDirector(parts[3]);
+        movie.setMainActor(parts[4]);
         movie.setTitleEnglish(parts[5]);
         movie.setYearOfProduction(Integer.parseInt(parts[6]));
         movie.getCountry().addAll(parts[7].split("/"));
         movie.setDuration(Integer.parseInt(parts[8]));
         movie.setFsk(Integer.parseInt(parts[9]));
-        movie.getGenre().addAll(parts[10].split(", "));
+        movie.setGenre(parts[10]);
 
         try {
             LocalDate startDate = LocalDate.parse(parts[11], DateTimeFormatter.ofPattern("dd.MM.yyyy"));
@@ -101,14 +101,14 @@ public class MovieService implements DataService<Movie> {
                 .append(movie.getId()).append(";")
                 .append(movie.getTitle()).append(";")
                 .append(movie.getYearOfAward()).append(";")
-                .append(String.join(", ", movie.getDirector())).append(";")
-                .append(String.join(", ", movie.getMainActor())).append(";")
+                .append(movie.getDirector()).append(";")
+                .append(movie.getMainActor()).append(";")
                 .append(movie.getTitleEnglish()).append(";")
                 .append(movie.getYearOfProduction()).append(";")
                 .append(String.join("/", movie.getCountry())).append(";")
                 .append(movie.getDuration()).append(";")
                 .append(movie.getFsk()).append(";")
-                .append(String.join(", ", movie.getGenre())).append(";")
+                .append(movie.getGenre()).append(";")
                 .append(movie.getStartDate().isPresent() ? movie.getStartDate().toString() : "-")
                 .append(movie.getNumberOfOscars());
 

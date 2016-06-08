@@ -1,8 +1,10 @@
 package ch.fhnw.oop2.project.master;
 
 import ch.fhnw.oop2.project.DataService;
+import ch.fhnw.oop2.project.Movie;
 import ch.fhnw.oop2.project.editor.EditorPresenter;
 import ch.fhnw.oop2.project.editor.EditorView;
+import ch.fhnw.oop2.project.table.TableActionListener;
 import ch.fhnw.oop2.project.table.TablePresenter;
 import ch.fhnw.oop2.project.table.TableView;
 import ch.fhnw.oop2.project.toolbar.ToolbarPresenter;
@@ -18,7 +20,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Kelvin on 07-May-16.
  */
-public class MasterPresenter implements Initializable {
+public class MasterPresenter implements Initializable, TableActionListener {
     @FXML
     private BorderPane borderPane;
 
@@ -72,5 +74,30 @@ public class MasterPresenter implements Initializable {
         editorPresenter = new EditorPresenter();
         editorView = new EditorView(editorPresenter);
         splitPane.getItems().add(editorView.getView());
+    }
+
+    @Override
+    public void onYearOfProductionChange(int year) {
+
+    }
+
+    @Override
+    public void onTitleChange(String title) {
+
+    }
+
+    @Override
+    public void onMainActorChange(String actors) {
+
+    }
+
+    @Override
+    public void onDirectorChange(String actors) {
+
+    }
+
+    @Override
+    public void onSelectedMovieChange(Movie movie) {
+
     }
 }

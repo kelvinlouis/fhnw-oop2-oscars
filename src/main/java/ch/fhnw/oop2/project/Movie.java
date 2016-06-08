@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -15,14 +14,14 @@ public class Movie {
     private IntegerProperty id = new SimpleIntegerProperty();
     private StringProperty title = new SimpleStringProperty();
     private IntegerProperty yearOfAward = new SimpleIntegerProperty();
-    private ObservableList<String> director = FXCollections.observableArrayList();
-    private ObservableList<String> mainActor = FXCollections.observableArrayList();
+    private StringProperty director = new SimpleStringProperty();
+    private StringProperty mainActor = new SimpleStringProperty();
     private StringProperty titleEnglish = new SimpleStringProperty();
     private IntegerProperty yearOfProduction = new SimpleIntegerProperty();
     private ObservableList<String> country = FXCollections.observableArrayList();
     private IntegerProperty duration = new SimpleIntegerProperty();
     private IntegerProperty fsk = new SimpleIntegerProperty();
-    private ObservableList<String> genre = FXCollections.observableArrayList();
+    private StringProperty genre = new SimpleStringProperty();
     private ObjectProperty<Optional<LocalDate>> startDate = new SimpleObjectProperty<>();
     private IntegerProperty numberOfOscars = new SimpleIntegerProperty();
 
@@ -87,20 +86,40 @@ public class Movie {
         this.yearOfAward.set(yearOfAward);
     }
 
-    public ObservableList<String> getDirector() {
+    public String getDirector() {
+        return director.get();
+    }
+
+    public StringProperty directorProperty() {
         return director;
     }
 
-    public void setDirector(ObservableList<String> director) {
-        this.director = director;
+    public void setDirector(String director) {
+        this.director.set(director);
     }
 
-    public ObservableList<String> getMainActor() {
+    public String getMainActor() {
+        return mainActor.get();
+    }
+
+    public StringProperty mainActorProperty() {
         return mainActor;
     }
 
-    public void setMainActor(ObservableList<String> mainActor) {
-        this.mainActor = mainActor;
+    public void setMainActor(String mainActor) {
+        this.mainActor.set(mainActor);
+    }
+
+    public String getGenre() {
+        return genre.get();
+    }
+
+    public StringProperty genreProperty() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre.set(genre);
     }
 
     public String getTitleEnglish() {
@@ -159,13 +178,6 @@ public class Movie {
         this.fsk.set(fsk);
     }
 
-    public ObservableList<String> getGenre() {
-        return genre;
-    }
-
-    public void setGenre(ObservableList<String> genre) {
-        this.genre = genre;
-    }
 
     public Optional<LocalDate> getStartDate() {
         return startDate.get();

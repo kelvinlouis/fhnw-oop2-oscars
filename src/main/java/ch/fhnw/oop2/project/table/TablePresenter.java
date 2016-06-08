@@ -3,14 +3,13 @@ package ch.fhnw.oop2.project.table;
 import ch.fhnw.oop2.project.Movie;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.util.List;
@@ -40,14 +39,25 @@ public class TablePresenter implements Initializable {
 
     private ObjectProperty<Movie> selectedMovie = new SimpleObjectProperty<>();
 
+    private TableActionListener listener;
+
     public void initialize(URL location, ResourceBundle resources) {
+        table.setEditable(true);
+
         initializeListeners();
         setCellValueFactories();
+        setCellFactories();
     }
 
     public void setList(List<Movie> items) {
         list.addAll(items);
         table.setItems(list);
+    }
+
+    public void setListener(TableActionListener listener) {
+        if (list != null) {
+            this.listener = listener;
+        }
     }
 
     public ObjectProperty<Movie> selectedMovieProperty() {
@@ -60,34 +70,32 @@ public class TablePresenter implements Initializable {
         });
     }
 
+    private void setCellFactories() {
+        yearColumn.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Number>() {
+            @Override
+            public String toString(Number object) {
+                return Integer.toString((int) object);
+            }
+
+            @Override
+            public Number fromString(String string) {
+                return Integer.parseInt(string);
+            }
+        }));
+
+        titleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        mainActorColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        directorColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        titleColumn.setOnEditCommit(event -> listener.onTitleChange(event.getNewValue()));
+        mainActorColumn.setOnEditCommit(event -> listener.onMainActorChange(event.getNewValue()));
+        directorColumn.setOnEditCommit(event -> listener.onDirectorChange(event.getNewValue()));
+    }
+
     private void setCellValueFactories() {
         yearColumn.setCellValueFactory(data -> data.getValue().yearOfAwardProperty());
         titleColumn.setCellValueFactory(data -> data.getValue().titleProperty());
-
-        // Create joined string properties for directors
-        directorColumn.setCellValueFactory(data -> {
-            StringProperty directors = new SimpleStringProperty();
-            ObservableList<String> list = data.getValue().getDirector();
-
-            list.addListener((ListChangeListener<? super String>) c ->
-                    directors.set(String.join(", ", list)));
-
-            directors.set(String.join(", ", list));
-
-            return directors;
-        });
-
-        // Create joined string properties for main actors
-        mainActorColumn.setCellValueFactory(data -> {
-            StringProperty actors = new SimpleStringProperty();
-            ObservableList<String> list = data.getValue().getMainActor();
-
-            list.addListener((ListChangeListener<? super String>) c ->
-                    actors.set(String.join(", ", list)));
-
-            actors.set(String.join(", ", list));
-
-            return actors;
-        });
+        mainActorColumn.setCellValueFactory(data -> data.getValue().mainActorProperty());
+        directorColumn.setCellValueFactory(data -> data.getValue().directorProperty());
     }
 }

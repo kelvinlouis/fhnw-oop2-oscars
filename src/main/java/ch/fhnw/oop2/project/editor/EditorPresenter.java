@@ -28,6 +28,7 @@ public class EditorPresenter implements Initializable{
 
     private final int MAX_YEAR = LocalDate.now().getYear();
     private final ObservableList<Integer> fskItems = FXCollections.observableArrayList(0, 6, 12, 16, 18);
+    private boolean blockListeners = false;
 
     @FXML
     private Label yearOfAwardLabel;
@@ -103,24 +104,24 @@ public class EditorPresenter implements Initializable{
     private void initializeListeners() {
         selectedMovie.addListener((obs, old, newValue) -> onMovieChange(newValue));
 
+        addListener(yearOfAwardSpinner, Movie::setYearOfAward);
         addListener(titleTextField, Movie::setTitle);
         addListener(titleEnTextField, Movie::setTitleEnglish);
-        addListener(yearOfAwardSpinner, Movie::setYearOfAward);
+        addListener(mainActorTextField, Movie::setMainActor);
+        addListener(directorTextField, Movie::setDirector);
         addListener(productionYearSpinner, Movie::setYearOfProduction);
         addListener(durationSpinner, Movie::setDuration);
         addListener(launchDatePicker, Movie::setStartDate);
         addListener(fskComboBox, Movie::setFsk);
+        addListener(genreTextField, Movie::setGenre);
 
-        addListener(genreTextField, Movie::getGenre, ", ");
-        addListener(mainActorTextField, Movie::getMainActor, ", ");
-        addListener(directorTextField, Movie::getDirector, ", ");
         addListener(countryTextField, Movie::getCountry, "/", countries -> setFlags(countries));
         addListener(oscarsSpinner, Movie::setNumberOfOscars, i -> setOscars(i));
     }
 
     private void addListener(TextInputControl element, Movie.MovieStringSetter setter) {
         element.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
+            if (newValue != null && blockListeners == false) {
                 setter.set(selectedMovie.get(), newValue);
             }
         });
@@ -128,7 +129,7 @@ public class EditorPresenter implements Initializable{
 
     private void addListener(Spinner element, Movie.MovieIntegerSetter setter, Consumer<Integer> con) {
         element.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
+            if (newValue != null && blockListeners == false) {
                 setter.set(selectedMovie.get(), (int) newValue);
 
                 if (con != null) {
@@ -145,7 +146,7 @@ public class EditorPresenter implements Initializable{
 
     private void addListener(ComboBox<Integer> element, Movie.MovieIntegerSetter setter) {
         element.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
+            if (newValue != null && blockListeners == false) {
                 setter.set(selectedMovie.get(), newValue);
             }
         });
@@ -153,7 +154,7 @@ public class EditorPresenter implements Initializable{
 
     private void addListener(DatePicker element, Movie.MovieDateSetter setter) {
         element.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
+            if (newValue != null && blockListeners == false) {
                 setter.set(selectedMovie.get(), Optional.of(newValue));
             }
         });
@@ -161,7 +162,7 @@ public class EditorPresenter implements Initializable{
 
     private void addListener(TextInputControl element, Movie.MovieListGetter getter, String splitter, Consumer<List<String>> con) {
         element.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
+            if (newValue != null && blockListeners == false) {
                 List<String> newList = Arrays.asList(newValue.split(splitter));
                 getter.get(selectedMovie.get()).setAll(newList);
 
@@ -178,16 +179,18 @@ public class EditorPresenter implements Initializable{
     }
 
     private void onMovieChange(Movie movie) {
+        this.blockListeners = true;
         refreshElements(movie);
+        this.blockListeners = false;
     }
 
     private void refreshElements(Movie movie) {
         titleTextField.textProperty().set(movie.getTitle());
         titleEnTextField.textProperty().set(movie.getTitleEnglish());
         yearOfAwardSpinner.setValueFactory(createSpinnerFactory(0, MAX_YEAR, movie.getYearOfAward()));
-        directorTextField.textProperty().set(String.join(", ", movie.getDirector()));
-        mainActorTextField.textProperty().set(String.join(", ", movie.getMainActor()));
-        genreTextField.textProperty().set(String.join(", ", movie.getGenre()));
+        directorTextField.textProperty().set(movie.getDirector());
+        mainActorTextField.textProperty().set(movie.getMainActor());
+        genreTextField.textProperty().set(movie.getGenre());
         countryTextField.textProperty().set(String.join("/", movie.getCountry()));
         productionYearSpinner.setValueFactory(createSpinnerFactory(0, MAX_YEAR, movie.getYearOfProduction()));
         durationSpinner.setValueFactory(createSpinnerFactory(0,300, movie.getDuration()));

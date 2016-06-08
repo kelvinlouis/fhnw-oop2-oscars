@@ -5,11 +5,9 @@ package ch.fhnw.oop2.project;/**
 import ch.fhnw.oop2.project.master.MasterPresenter;
 import ch.fhnw.oop2.project.master.MasterView;
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.List;
 
 public class App extends Application {
 
