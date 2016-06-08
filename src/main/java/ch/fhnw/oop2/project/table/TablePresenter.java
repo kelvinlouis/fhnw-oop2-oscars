@@ -1,8 +1,6 @@
 package ch.fhnw.oop2.project.table;
 
 import ch.fhnw.oop2.project.Movie;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,16 +35,15 @@ public class TablePresenter implements Initializable {
     @FXML
     private TableColumn<Movie, String> mainActorColumn;
 
-    private ObjectProperty<Movie> selectedMovie = new SimpleObjectProperty<>();
 
-    private TableActionListener listener;
+    private TableActionsListener listener;
 
     public void initialize(URL location, ResourceBundle resources) {
         table.setEditable(true);
 
-        initializeListeners();
         setCellValueFactories();
         setCellFactories();
+        initializeListeners();
     }
 
     public void setList(List<Movie> items) {
@@ -54,20 +51,23 @@ public class TablePresenter implements Initializable {
         table.setItems(list);
     }
 
-    public void setListener(TableActionListener listener) {
+    public void setListener(TableActionsListener listener) {
         if (list != null) {
             this.listener = listener;
         }
     }
 
-    public ObjectProperty<Movie> selectedMovieProperty() {
-        return selectedMovie;
-    }
-
     private void initializeListeners() {
         table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            selectedMovie.set(newValue);
+            if (newValue != null) {
+                listener.onSelectedMovieChange(newValue);
+            }
         });
+
+        yearColumn.setOnEditCommit(event -> listener.onYearOfAwardChange((int) event.getNewValue()));
+        titleColumn.setOnEditCommit(event -> listener.onTitleChange(event.getNewValue()));
+        mainActorColumn.setOnEditCommit(event -> listener.onMainActorChange(event.getNewValue()));
+        directorColumn.setOnEditCommit(event -> listener.onDirectorChange(event.getNewValue()));
     }
 
     private void setCellFactories() {
@@ -86,10 +86,6 @@ public class TablePresenter implements Initializable {
         titleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         mainActorColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         directorColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        titleColumn.setOnEditCommit(event -> listener.onTitleChange(event.getNewValue()));
-        mainActorColumn.setOnEditCommit(event -> listener.onMainActorChange(event.getNewValue()));
-        directorColumn.setOnEditCommit(event -> listener.onDirectorChange(event.getNewValue()));
     }
 
     private void setCellValueFactories() {

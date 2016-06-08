@@ -4,11 +4,14 @@ import ch.fhnw.oop2.project.DataService;
 import ch.fhnw.oop2.project.Movie;
 import ch.fhnw.oop2.project.editor.EditorPresenter;
 import ch.fhnw.oop2.project.editor.EditorView;
-import ch.fhnw.oop2.project.table.TableActionListener;
+import ch.fhnw.oop2.project.table.TableActionsListener;
 import ch.fhnw.oop2.project.table.TablePresenter;
 import ch.fhnw.oop2.project.table.TableView;
+import ch.fhnw.oop2.project.toolbar.ToolbarActionsListener;
 import ch.fhnw.oop2.project.toolbar.ToolbarPresenter;
 import ch.fhnw.oop2.project.toolbar.ToolbarView;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.SplitPane;
@@ -20,7 +23,9 @@ import java.util.ResourceBundle;
 /**
  * Created by Kelvin on 07-May-16.
  */
-public class MasterPresenter implements Initializable, TableActionListener {
+public class MasterPresenter implements Initializable, TableActionsListener, ToolbarActionsListener {
+    private ObjectProperty<Movie> selectedMovie = new SimpleObjectProperty<>();
+
     @FXML
     private BorderPane borderPane;
 
@@ -51,15 +56,15 @@ public class MasterPresenter implements Initializable, TableActionListener {
     }
 
     private void initializeListeners() {
-        tablePresenter.selectedMovieProperty().addListener((observable, oldValue, newValue) -> {
-            editorPresenter.selectedMovieProperty().set(newValue);
-        });
+        tablePresenter.setListener(this);
     }
 
     private void createToolbar() {
         toolbarPresenter = new ToolbarPresenter();
         toolbarView = new ToolbarView(toolbarPresenter);
         borderPane.setTop(toolbarView.getView());
+
+        toolbarPresenter.setListener(this);
     }
 
     private void createTableView() {
@@ -77,27 +82,59 @@ public class MasterPresenter implements Initializable, TableActionListener {
     }
 
     @Override
-    public void onYearOfProductionChange(int year) {
+    public void onSelectedMovieChange(Movie movie) {
+        selectedMovie.setValue(movie);
 
+        editorPresenter.selectedMovieProperty().setValue(movie);
+    }
+
+    @Override
+    public void onYearOfAwardChange(int year) {
+        selectedMovie.get().yearOfAwardProperty().set(year);
     }
 
     @Override
     public void onTitleChange(String title) {
-
+        selectedMovie.get().titleProperty().set(title);
     }
 
     @Override
     public void onMainActorChange(String actors) {
-
+        selectedMovie.get().mainActorProperty().set(actors);
     }
 
     @Override
-    public void onDirectorChange(String actors) {
-
+    public void onDirectorChange(String directors) {
+        selectedMovie.get().directorProperty().set(directors);
     }
 
     @Override
-    public void onSelectedMovieChange(Movie movie) {
+    public void onSave() {
+        System.out.println("save");
+    }
 
+    @Override
+    public void onAdd() {
+        System.out.println("add");
+    }
+
+    @Override
+    public void onRemove() {
+        System.out.println("remove");
+    }
+
+    @Override
+    public void onFilter(String text) {
+        System.out.println("filter");
+    }
+
+    @Override
+    public void onUndo() {
+        System.out.println("undo");
+    }
+
+    @Override
+    public void onRedo() {
+        System.out.println("redo");
     }
 }

@@ -10,23 +10,23 @@
     -fx-min-width: 52;
 }
 
-#save {
+#saveButton {
     -fx-background-image: url("../resources/icons/save.svg.png");
 }
 
-#add {
+#addButton {
     -fx-background-image: url("../resources/icons/add.svg.png");
 }
 
-#remove {
+#removeButton {
     -fx-background-image: url("../resources/icons/remove.svg.png");
 }
 
-#undo {
+#undoButton {
     -fx-background-image: url("../resources/icons/undo.svg.png");
 }
 
-#redo {
+#redoButton {
     -fx-background-image: url("../resources/icons/redo.svg.png");
 }
 

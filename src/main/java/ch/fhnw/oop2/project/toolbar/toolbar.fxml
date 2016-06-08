@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.HBox?>
 <ToolBar prefHeight="60.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
   <items>
-    <Button fx:id="save" mnemonicParsing="false" />
+    <Button fx:id="saveButton" mnemonicParsing="false" />
       <Separator orientation="VERTICAL" />
-      <Button fx:id="add" mnemonicParsing="false" />
-      <Button fx:id="remove" mnemonicParsing="false" />
+      <Button fx:id="addButton" mnemonicParsing="false" />
+      <Button fx:id="removeButton" mnemonicParsing="false" />
       <Separator orientation="VERTICAL" />
-      <Button fx:id="undo" mnemonicParsing="false" />
-      <Button fx:id="redo" mnemonicParsing="false" />
+      <Button fx:id="undoButton" mnemonicParsing="false" />
+      <Button fx:id="redoButton" mnemonicParsing="false" />
       <HBox HBox.hgrow="ALWAYS" />
-      <TextField styleClass="filter" />
+      <TextField fx:id="filterTextField" styleClass="filter" />
   </items>
 </ToolBar>
