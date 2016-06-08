@@ -3,6 +3,8 @@ package ch.fhnw.oop2.project.editor;
 import ch.fhnw.oop2.project.Movie;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -25,6 +27,7 @@ public class EditorPresenter implements Initializable{
     private ObjectProperty<Movie> selectedMovie = new SimpleObjectProperty<>();
 
     private final int MAX_YEAR = LocalDate.now().getYear();
+    private final ObservableList<Integer> fskItems = FXCollections.observableArrayList(0, 6, 12, 16, 18);
 
     @FXML
     private Label yearOfAwardLabel;
@@ -69,7 +72,7 @@ public class EditorPresenter implements Initializable{
     private TextField countryTextField;
 
     @FXML
-    private ComboBox fskComboBox;
+    private ComboBox<Integer> fskComboBox;
 
     @FXML
     private Spinner<Integer> oscarsSpinner;
@@ -83,34 +86,11 @@ public class EditorPresenter implements Initializable{
     @FXML
     private DatePicker launchDatePicker;
 
-    class OscarView extends ImageView {
-        OscarView() {
-            setImage(new Image(getClass().getResource("../resources/oscar.png").toExternalForm()));
-            setFitHeight(40);
-            setPreserveRatio(true);
-        }
-    }
-
-    class FlagView extends ImageView {
-        FlagView(String country) {
-            URL url = getClass().getResource("../resources/flags/" + country.toLowerCase() + ".png");
-            System.out.println(country);
-            if (url != null) {
-                setImage(new Image(url.toExternalForm()));
-            } else {
-                setImage(null);
-            }
-
-            setFitHeight(24);
-            setPreserveRatio(true);
-        }
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeBindings();
         initializeListeners();
-        //changeFSKValues();
+        changeFSKItems();
     }
 
     private void initializeBindings() {
@@ -121,7 +101,7 @@ public class EditorPresenter implements Initializable{
     }
 
     private void initializeListeners() {
-        selectedMovie.addListener((obs, old, newValue) -> refreshElements(newValue));
+        selectedMovie.addListener((obs, old, newValue) -> onMovieChange(newValue));
 
         addListener(titleTextField, Movie::setTitle);
         addListener(titleEnTextField, Movie::setTitleEnglish);
@@ -129,6 +109,7 @@ public class EditorPresenter implements Initializable{
         addListener(productionYearSpinner, Movie::setYearOfProduction);
         addListener(durationSpinner, Movie::setDuration);
         addListener(launchDatePicker, Movie::setStartDate);
+        addListener(fskComboBox, Movie::setFsk);
 
         addListener(genreTextField, Movie::getGenre, ", ");
         addListener(mainActorTextField, Movie::getMainActor, ", ");
@@ -162,6 +143,14 @@ public class EditorPresenter implements Initializable{
         addListener(element, setter, null);
     }
 
+    private void addListener(ComboBox<Integer> element, Movie.MovieIntegerSetter setter) {
+        element.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                setter.set(selectedMovie.get(), newValue);
+            }
+        });
+    }
+
     private void addListener(DatePicker element, Movie.MovieDateSetter setter) {
         element.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -188,6 +177,10 @@ public class EditorPresenter implements Initializable{
         addListener(element, getter, splitter, null);
     }
 
+    private void onMovieChange(Movie movie) {
+        refreshElements(movie);
+    }
+
     private void refreshElements(Movie movie) {
         titleTextField.textProperty().set(movie.getTitle());
         titleEnTextField.textProperty().set(movie.getTitleEnglish());
@@ -200,8 +193,11 @@ public class EditorPresenter implements Initializable{
         durationSpinner.setValueFactory(createSpinnerFactory(0,300, movie.getDuration()));
         oscarsSpinner.setValueFactory(createSpinnerFactory(0, 10, movie.getNumberOfOscars()));
         launchDatePicker.setValue(movie.getStartDate().orElse(null));
+        fskComboBox.setValue(movie.getFsk());
 
         setPoster(movie.getId());
+        setFlags(movie.getCountry());
+        setOscars(movie.getNumberOfOscars());
     }
 
     private void setFlags(List<String> countries) {
@@ -234,8 +230,8 @@ public class EditorPresenter implements Initializable{
         oscarsContainer.getChildren().addAll(oscars);
     }
 
-    private void changeFSKValues() {
-        fskComboBox.getItems().addAll("Line", "Rectangle", "Circle", "Text");
+    private void changeFSKItems() {
+        fskComboBox.setItems(fskItems);
 
         // Set the CellFactory property
         fskComboBox.setCellFactory(new FSKCellFactory());

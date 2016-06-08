@@ -7,10 +7,10 @@ import javafx.util.Callback;
 /**
  * Created by Kelvin on 07-May-16.
  */
-class FSKCellFactory implements Callback<ListView<String>, ListCell<String>>
+class FSKCellFactory implements Callback<ListView<Integer>, ListCell<Integer>>
 {
     @Override
-    public ListCell<String> call(ListView<String> listview)
+    public ListCell<Integer> call(ListView<Integer> listview)
     {
         return new FSKCell();
     }
