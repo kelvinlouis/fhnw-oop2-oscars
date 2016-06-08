@@ -1,13 +1,8 @@
 package ch.fhnw.oop2.project.editor;
 
 import ch.fhnw.oop2.project.Movie;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -15,23 +10,13 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
-import javafx.util.StringConverter;
-import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.NumberStringConverter;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * Created by Kelvin on 07-May-16.
@@ -129,35 +114,14 @@ public class EditorPresenter implements Initializable{
     }
 
     private void initializeBindings() {
+        yearOfAwardLabel.textProperty().bind(yearOfAwardSpinner.valueProperty().asString());
         titleLabel.textProperty().bind(titleTextField.textProperty());
         directorLabel.textProperty().bind(directorTextField.textProperty());
         mainActorLabel.textProperty().bind(mainActorTextField.textProperty());
     }
 
     private void initializeListeners() {
-        selectedMovie.addListener((observable, oldValue, newValue) -> {
-            if (oldValue != null) {
-                titleTextField.textProperty().unbindBidirectional(oldValue.titleProperty());
-                titleEnTextField.textProperty().unbindBidirectional(oldValue.titleEnglishProperty());
-            }
-
-            // todo unbind?
-            yearOfAwardLabel.textProperty().bind(newValue.yearOfAwardProperty().asString());
-            yearOfAwardSpinner.setValueFactory(createSpinnerFactory(0, MAX_YEAR, newValue.getYearOfAward()));
-            titleTextField.textProperty().bindBidirectional(newValue.titleProperty());
-            directorTextField.textProperty().set(String.join(", ", newValue.getDirector()));
-            mainActorTextField.textProperty().set(String.join(", ", newValue.getMainActor()));
-            titleEnTextField.textProperty().bindBidirectional(newValue.titleEnglishProperty());
-            genreTextField.textProperty().set(String.join(", ", newValue.getGenre()));
-            countryTextField.textProperty().set(String.join("/", newValue.getCountry()));
-            productionYearSpinner.setValueFactory(createSpinnerFactory(0, MAX_YEAR, newValue.getYearOfProduction()));
-            durationSpinner.setValueFactory(createSpinnerFactory(0,300, newValue.getDuration()));
-            oscarsSpinner.setValueFactory(createSpinnerFactory(0, 10, newValue.getNumberOfOscars()));
-            launchDatePicker.setValue(newValue.getStartDate().orElse(null));
-
-            setPoster(newValue.getId());
-//            setFlags(newValue.getCountry());
-        });
+        selectedMovie.addListener((obs, old, newValue) -> refreshElements(newValue));
 
         addListener(titleTextField, Movie::setTitle);
         addListener(titleEnTextField, Movie::setTitleEnglish);
@@ -165,8 +129,10 @@ public class EditorPresenter implements Initializable{
         addListener(productionYearSpinner, Movie::setYearOfProduction);
         addListener(durationSpinner, Movie::setDuration);
         addListener(launchDatePicker, Movie::setStartDate);
-        addListener(mainActorTextField, Movie::getMainActor, ",");
-        addListener(directorTextField, Movie::getMainActor, ",");
+
+        addListener(genreTextField, Movie::getGenre, ", ");
+        addListener(mainActorTextField, Movie::getMainActor, ", ");
+        addListener(directorTextField, Movie::getDirector, ", ");
         addListener(countryTextField, Movie::getCountry, "/", countries -> setFlags(countries));
         addListener(oscarsSpinner, Movie::setNumberOfOscars, i -> setOscars(i));
     }
@@ -185,6 +151,7 @@ public class EditorPresenter implements Initializable{
                 setter.set(selectedMovie.get(), (int) newValue);
 
                 if (con != null) {
+                    // Execute a consumer after setting value
                     con.accept((int) newValue);
                 }
             }
@@ -210,6 +177,7 @@ public class EditorPresenter implements Initializable{
                 getter.get(selectedMovie.get()).setAll(newList);
 
                 if (con != null) {
+                    // Execute a consumer after setting values
                     con.accept(newList);
                 }
             }
@@ -220,8 +188,20 @@ public class EditorPresenter implements Initializable{
         addListener(element, getter, splitter, null);
     }
 
-    private SpinnerValueFactory.IntegerSpinnerValueFactory createSpinnerFactory(int min, int max, int v) {
-        return new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, v);
+    private void refreshElements(Movie movie) {
+        titleTextField.textProperty().set(movie.getTitle());
+        titleEnTextField.textProperty().set(movie.getTitleEnglish());
+        yearOfAwardSpinner.setValueFactory(createSpinnerFactory(0, MAX_YEAR, movie.getYearOfAward()));
+        directorTextField.textProperty().set(String.join(", ", movie.getDirector()));
+        mainActorTextField.textProperty().set(String.join(", ", movie.getMainActor()));
+        genreTextField.textProperty().set(String.join(", ", movie.getGenre()));
+        countryTextField.textProperty().set(String.join("/", movie.getCountry()));
+        productionYearSpinner.setValueFactory(createSpinnerFactory(0, MAX_YEAR, movie.getYearOfProduction()));
+        durationSpinner.setValueFactory(createSpinnerFactory(0,300, movie.getDuration()));
+        oscarsSpinner.setValueFactory(createSpinnerFactory(0, 10, movie.getNumberOfOscars()));
+        launchDatePicker.setValue(movie.getStartDate().orElse(null));
+
+        setPoster(movie.getId());
     }
 
     private void setFlags(List<String> countries) {
@@ -266,5 +246,9 @@ public class EditorPresenter implements Initializable{
 
     public ObjectProperty<Movie> selectedMovieProperty() {
         return selectedMovie;
+    }
+
+    private SpinnerValueFactory.IntegerSpinnerValueFactory createSpinnerFactory(int min, int max, int v) {
+        return new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, v);
     }
 }
