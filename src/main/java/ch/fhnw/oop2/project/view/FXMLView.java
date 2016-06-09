@@ -32,7 +32,6 @@ public abstract class FXMLView extends StackPane {
 
     private void addCSS() {
         URL uri = getClass().getResource(CSSFileName);
-        System.out.println(uri.toExternalForm());
         view.getStylesheets().add(uri.toExternalForm());
     }
 

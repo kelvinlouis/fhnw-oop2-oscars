@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
  * Created by Kelvin on 07-May-16.
  */
 public class MasterView extends FXMLView implements Initializable, MovieView {
-    private MasterPresenter presenter;
+    private final MasterPresenter presenter;
 
     @FXML
     private BorderPane borderPane;

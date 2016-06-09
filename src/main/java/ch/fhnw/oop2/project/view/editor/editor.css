@@ -14,11 +14,11 @@
 }
 
 .flag {
-    -fx-image: url("../resources/flags/ch.png");
+    -fx-image: url("../../resources/flags/ch.png");
     -fx-max-height: 24px;
     -fx-max-width: 24px;
 }
 
 .poster {
-    -fx-image: url("../resources/posters/2.jpg");
+    -fx-image: url("../../resources/posters/2.jpg");
 }
