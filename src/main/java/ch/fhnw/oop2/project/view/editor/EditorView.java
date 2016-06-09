@@ -1,7 +1,8 @@
-package ch.fhnw.oop2.project.editor;
+package ch.fhnw.oop2.project.view.editor;
 
-import ch.fhnw.oop2.project.Movie;
-import ch.fhnw.oop2.project.table.TableActionsListener;
+import ch.fhnw.oop2.project.view.FXMLView;
+import ch.fhnw.oop2.project.model.Movie;
+import ch.fhnw.oop2.project.MasterPresenter;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -24,7 +25,8 @@ import java.util.stream.IntStream;
 /**
  * Created by Kelvin on 07-May-16.
  */
-public class EditorPresenter implements Initializable, TableActionsListener {
+public class EditorView extends FXMLView implements Initializable {
+    private final MasterPresenter presenter;
     private ObjectProperty<Movie> selectedMovie = new SimpleObjectProperty<>();
 
     private final int MAX_YEAR = LocalDate.now().getYear();
@@ -87,6 +89,11 @@ public class EditorPresenter implements Initializable, TableActionsListener {
 
     @FXML
     private DatePicker launchDatePicker;
+
+    public EditorView(MasterPresenter presenter) {
+        this.presenter = presenter;
+        load("editor.fxml", "editor.css");
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -244,36 +251,7 @@ public class EditorPresenter implements Initializable, TableActionsListener {
         fskComboBox.setButtonCell(new FSKCell());
     }
 
-    public ObjectProperty<Movie> selectedMovieProperty() {
-        return selectedMovie;
-    }
-
     private SpinnerValueFactory.IntegerSpinnerValueFactory createSpinnerFactory(int min, int max, int v) {
         return new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, v);
-    }
-
-    @Override
-    public void onSelectedMovieChange(Movie movie) {
-        selectedMovie.setValue(movie);
-    }
-
-    @Override
-    public void onYearOfAwardChange(int year) {
-        yearOfAwardSpinner.setValueFactory(createSpinnerFactory(0, MAX_YEAR, year));
-    }
-
-    @Override
-    public void onTitleChange(String title) {
-        titleTextField.textProperty().set(title);
-    }
-
-    @Override
-    public void onMainActorChange(String actors) {
-        titleTextField.textProperty().set(actors);
-    }
-
-    @Override
-    public void onDirectorChange(String directors) {
-        titleTextField.textProperty().set(directors);
     }
 }

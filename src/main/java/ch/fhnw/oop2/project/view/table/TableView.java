@@ -1,24 +1,25 @@
-package ch.fhnw.oop2.project.table;
+package ch.fhnw.oop2.project.view.table;
 
-import ch.fhnw.oop2.project.Movie;
+import ch.fhnw.oop2.project.view.FXMLView;
+import ch.fhnw.oop2.project.model.Movie;
+import ch.fhnw.oop2.project.MasterPresenter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.StringConverter;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
-
 
 /**
  * Created by Kelvin on 07-May-16.
  */
-public class TablePresenter implements Initializable {
+public class TableView extends FXMLView implements Initializable {
     private ObservableList<Movie> list = FXCollections.observableArrayList();
+    private MasterPresenter presenter;
 
     @FXML
     javafx.scene.control.TableView<Movie> table;
@@ -35,10 +36,14 @@ public class TablePresenter implements Initializable {
     @FXML
     private TableColumn<Movie, String> mainActorColumn;
 
-
-    private TableActionsListener listener;
+    public TableView(MasterPresenter presenter) {
+        this.presenter = presenter;
+        load("table.fxml", "table.css");
+    }
 
     public void initialize(URL location, ResourceBundle resources) {
+        list.addAll(presenter.getMovies());
+        table.setItems(list);
         table.setEditable(true);
 
         setCellValueFactories();
@@ -46,28 +51,17 @@ public class TablePresenter implements Initializable {
         initializeListeners();
     }
 
-    public void setList(List<Movie> items) {
-        list.addAll(items);
-        table.setItems(list);
-    }
-
-    public void setListener(TableActionsListener listener) {
-        if (list != null) {
-            this.listener = listener;
-        }
-    }
-
     private void initializeListeners() {
         table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                listener.onSelectedMovieChange(newValue);
+                presenter.setSelectedMovie(newValue);
             }
         });
 
-        yearColumn.setOnEditCommit(event -> listener.onYearOfAwardChange((int) event.getNewValue()));
-        titleColumn.setOnEditCommit(event -> listener.onTitleChange(event.getNewValue()));
-        mainActorColumn.setOnEditCommit(event -> listener.onMainActorChange(event.getNewValue()));
-        directorColumn.setOnEditCommit(event -> listener.onDirectorChange(event.getNewValue()));
+        yearColumn.setOnEditCommit(event -> presenter.setYearOfAward((int) event.getNewValue()));
+        titleColumn.setOnEditCommit(event -> presenter.setTitle(event.getNewValue()));
+        mainActorColumn.setOnEditCommit(event -> presenter.setMainActor(event.getNewValue()));
+        directorColumn.setOnEditCommit(event -> presenter.setDirector(event.getNewValue()));
     }
 
     private void setCellFactories() {

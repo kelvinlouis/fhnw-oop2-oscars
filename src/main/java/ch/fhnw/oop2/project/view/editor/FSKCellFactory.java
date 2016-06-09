@@ -1,4 +1,4 @@
-package ch.fhnw.oop2.project.editor;
+package ch.fhnw.oop2.project.view.editor;
 
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;

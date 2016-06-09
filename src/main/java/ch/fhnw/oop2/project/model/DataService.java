@@ -1,4 +1,4 @@
-package ch.fhnw.oop2.project;
+package ch.fhnw.oop2.project.model;
 
 import java.util.List;
 

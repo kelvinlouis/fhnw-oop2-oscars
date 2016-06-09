@@ -2,8 +2,8 @@ package ch.fhnw.oop2.project;/**
  * Created by Kelvin on 07-May-16.
  */
 
-import ch.fhnw.oop2.project.master.MasterPresenter;
-import ch.fhnw.oop2.project.master.MasterView;
+import ch.fhnw.oop2.project.model.MovieService;
+import ch.fhnw.oop2.project.view.master.MasterView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,7 +17,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        MasterView view = new MasterView(new MasterPresenter(MovieService.getInstance()));
+        MasterView view = new MasterView();
 
         Scene scene = new Scene(view.getView(), 1100, 600);
         stage.setTitle("Academy Award for Best Picture");

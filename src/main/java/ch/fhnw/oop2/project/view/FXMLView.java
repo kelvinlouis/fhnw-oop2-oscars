@@ -1,4 +1,4 @@
-package ch.fhnw.oop2.project;
+package ch.fhnw.oop2.project.view;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,19 +12,16 @@ import java.net.URL;
  */
 public abstract class FXMLView extends StackPane {
     private Parent view;
-    private Object presenter;
+    private String FXMLFileName;
+    private String CSSFileName;
 
-    protected final String FXMLFileName;
-    protected final String CSSFileName;
-
-    public FXMLView(String fxml, String css, Object presenter) {
+    public void load(String fxml, String css) {
         FXMLFileName = fxml;
         CSSFileName = css;
-        this.presenter = presenter;
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(FXMLFileName));
-            loader.setController(presenter);
+            loader.setController(this);
             view = loader.load();
 
             addCSS();
@@ -41,9 +38,5 @@ public abstract class FXMLView extends StackPane {
 
     public Parent getView() {
         return view;
-    }
-
-    public Object getPresenter() {
-        return presenter;
     }
 }
