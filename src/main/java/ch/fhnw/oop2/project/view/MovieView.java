@@ -7,8 +7,8 @@ import ch.fhnw.oop2.project.model.Movie;
  */
 public interface MovieView {
     public void changedSelectedMovie(Movie movie);
-    public void changedYearOfAward(int year);
-    public void changedTitle(String title);
-    public void changedMainActor(String actor);
-    public void changedDirector(String director);
+    public void changedYearOfAward(Movie movie);
+    public void changedTitle(Movie movie);
+    public void changedMainActor(Movie movie);
+    public void changedDirector(Movie movie);
 }

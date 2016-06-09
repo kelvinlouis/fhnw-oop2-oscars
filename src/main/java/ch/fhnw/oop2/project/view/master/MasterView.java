@@ -66,26 +66,26 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
 
     @Override
     public void changedSelectedMovie(Movie movie) {
-
+        editorView.changedSelectedMovie(movie);
     }
 
     @Override
-    public void changedYearOfAward(int year) {
-
+    public void changedYearOfAward(Movie movie) {
+        editorView.changedYearOfAward(movie);
     }
 
     @Override
-    public void changedTitle(String title) {
-
+    public void changedTitle(Movie movie) {
+        editorView.changedTitle(movie);
     }
 
     @Override
-    public void changedMainActor(String actor) {
-
+    public void changedMainActor(Movie movie) {
+        editorView.changedMainActor(movie);
     }
 
     @Override
-    public void changedDirector(String director) {
-
+    public void changedDirector(Movie movie) {
+        editorView.changedDirector(movie);
     }
 }

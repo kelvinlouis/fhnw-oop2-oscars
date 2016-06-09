@@ -110,8 +110,6 @@ public class EditorView extends FXMLView implements Initializable {
     }
 
     private void initializeListeners() {
-        selectedMovie.addListener((obs, old, newValue) -> onMovieChange(newValue));
-
         addListener(yearOfAwardSpinner, Movie::setYearOfAward);
         addListener(titleTextField, Movie::setTitle);
         addListener(titleEnTextField, Movie::setTitleEnglish);
@@ -223,7 +221,7 @@ public class EditorView extends FXMLView implements Initializable {
     }
 
     private void setPoster(int id) {
-        URL resource = getClass().getResource("../resources/posters/" + id + ".jpg");
+        URL resource = getClass().getResource("../../resources/posters/" + id + ".jpg");
 
         if (resource != null) {
             posterImage.setImage(new Image(resource.toExternalForm()));
@@ -253,5 +251,27 @@ public class EditorView extends FXMLView implements Initializable {
 
     private SpinnerValueFactory.IntegerSpinnerValueFactory createSpinnerFactory(int min, int max, int v) {
         return new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, v);
+    }
+
+    public void changedSelectedMovie(Movie movie) {
+        selectedMovie.setValue(movie);
+        refreshElements(movie);
+    }
+
+    public void changedYearOfAward(Movie movie) {
+        yearOfAwardSpinner.setValueFactory(createSpinnerFactory(0, MAX_YEAR, movie.getYearOfAward()));
+    }
+
+    public void changedTitle(Movie movie) {
+         titleTextField.textProperty().set(movie.getTitle());
+    }
+
+    public void changedMainActor(Movie movie) {
+        titleTextField.textProperty().set(movie.getMainActor());
+
+    }
+
+    public void changedDirector(Movie movie) {
+        titleTextField.textProperty().set(movie.getDirector());
     }
 }

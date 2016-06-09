@@ -28,30 +28,32 @@ public class MasterPresenter {
 
     public void setSelectedMovie(Movie movie) {
         selectedMovie.setValue(movie);
+        view.changedSelectedMovie(movie);
     }
 
     public void setYearOfAward(int year) {
-        // yearOfAwardSpinner.setValueFactory(createSpinnerFactory(0, MAX_YEAR, year));
-        selectedMovie.get().yearOfAwardProperty().setValue(year);
-        view.changedYearOfAward(year);
+        Movie movie = selectedMovie.get();
+
+        movie.yearOfAwardProperty().setValue(year);
+        view.changedYearOfAward(movie);
     }
 
     public void setTitle(String title) {
-        selectedMovie.get().titleProperty().set(title);
-        view.changedTitle(title);
-        // titleTextField.textProperty().set(title);
+        Movie movie = selectedMovie.get();
+        movie.titleProperty().set(title);
+        view.changedTitle(movie);
     }
 
     public void setMainActor(String actors) {
-        selectedMovie.get().mainActorProperty().set(actors);
-        view.changedMainActor(actors);
-        // titleTextField.textProperty().set(actors);
+        Movie movie = selectedMovie.get();
+        movie.mainActorProperty().set(actors);
+        view.changedMainActor(movie);
     }
 
     public void setDirector(String directors) {
-        selectedMovie.get().directorProperty().setValue(directors);
-        view.changedDirector(directors);
-        // titleTextField.textProperty().set(directors);
+        Movie movie = selectedMovie.get();
+        movie.directorProperty().setValue(directors);
+        view.changedDirector(movie);
     }
 
     public void save() {
