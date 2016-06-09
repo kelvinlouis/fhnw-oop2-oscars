@@ -16,7 +16,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        MasterView view = new MasterView();
+        MasterView view = new MasterView(stage);
 
         Scene scene = new Scene(view.getView(), 1100, 600);
         stage.setTitle("Academy Award for Best Picture");

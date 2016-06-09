@@ -12,7 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -21,6 +24,7 @@ import java.util.ResourceBundle;
  */
 public class MasterView extends FXMLView implements Initializable, MovieView {
     private final MasterPresenter presenter;
+    private final Stage stage;
 
     @FXML
     private BorderPane borderPane;
@@ -33,7 +37,9 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
     private EditorView editorView;
 
 
-    public MasterView() {
+    public MasterView(Stage stage) {
+        // Using the stage for saving the file
+        this.stage = stage;
         this.presenter = new MasterPresenter(MovieService.getInstance(), this);
         load("master.fxml", "master.css");
     }
@@ -96,5 +102,14 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
 
     public void removedMovie(Movie movie) {
         tableView.removeMovie(movie);
+    }
+
+    public File selectFile() {
+        FileChooser fileChooser = new FileChooser();
+
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("CSV", "*.csv");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+
+        return fileChooser.showSaveDialog(stage);
     }
 }

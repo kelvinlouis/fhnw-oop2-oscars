@@ -2,6 +2,8 @@ package ch.fhnw.oop2.project.view;
 
 import ch.fhnw.oop2.project.model.Movie;
 
+import java.io.File;
+
 /**
  * Created by Kelvin on 09-Jun-16.
  */
@@ -13,4 +15,5 @@ public interface MovieView {
     void changedDirector(Movie movie);
     void addedMovie(Movie movie);
     void removedMovie(Movie movie);
+    File selectFile();
 }

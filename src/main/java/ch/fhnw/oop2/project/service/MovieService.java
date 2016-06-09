@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
  */
 public class MovieService implements DataService<Movie> {
     private final String FILE_PATH = "../resources/movies.csv";
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private List<Movie> list;
 
     private static MovieService instance = new MovieService();
@@ -53,18 +54,19 @@ public class MovieService implements DataService<Movie> {
     }
 
     @Override
-    public void save(List<Movie> list) {
+    public void save(File file, List<Movie> list) throws IOException {
+        if (file == null) return;
+
         List<String> lines = new ArrayList<>();
-        File file = new File(FILE_PATH);
 
         lines.add(createCSVHeaderLine());
         list.forEach(movie -> lines.add(createCSVMovieLine(movie)));
 
-        try {
-            Files.write(file.toPath(), lines, Charset.forName("UTF-8"));
-        } catch(IOException exception) {
+        Files.write(file.toPath(), lines, Charset.forName("UTF-8"));
+    }
 
-        }
+    public void save(File file) throws IOException {
+        save(file, this.list);
     }
 
     @Override
@@ -98,7 +100,7 @@ public class MovieService implements DataService<Movie> {
         movie.setGenre(parts[10]);
 
         try {
-            LocalDate startDate = LocalDate.parse(parts[11], DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            LocalDate startDate = LocalDate.parse(parts[11], dateFormatter);
             movie.setStartDate(Optional.of(startDate));
         } catch (DateTimeParseException ex) {
             movie.setStartDate(Optional.empty());
@@ -116,20 +118,22 @@ public class MovieService implements DataService<Movie> {
     private String createCSVMovieLine(Movie movie) {
         StringBuilder builder = new StringBuilder();
 
+        final String separator = ";";
+
         builder
-                .append(movie.getId()).append(";")
-                .append(movie.getTitle()).append(";")
-                .append(movie.getYearOfAward()).append(";")
-                .append(movie.getDirector()).append(";")
-                .append(movie.getMainActor()).append(";")
-                .append(movie.getTitleEnglish()).append(";")
-                .append(movie.getYearOfProduction()).append(";")
-                .append(String.join("/", movie.getCountry())).append(";")
-                .append(movie.getDuration()).append(";")
-                .append(movie.getFsk()).append(";")
-                .append(movie.getGenre()).append(";")
-                .append(movie.getStartDate().isPresent() ? movie.getStartDate().toString() : "-")
-                .append(movie.getNumberOfOscars());
+            .append(movie.getId()).append(separator)
+            .append(movie.getTitle()).append(separator)
+            .append(movie.getYearOfAward()).append(separator)
+            .append(movie.getDirector()).append(separator)
+            .append(movie.getMainActor()).append(separator)
+            .append(movie.getTitleEnglish()).append(separator)
+            .append(movie.getYearOfProduction()).append(separator)
+            .append(String.join("/", movie.getCountry())).append(separator)
+            .append(movie.getDuration()).append(separator)
+            .append(movie.getFsk()).append(separator)
+            .append(movie.getGenre()).append(separator)
+            .append(movie.getStartDate().isPresent() ? dateFormatter.format(movie.getStartDate().get()): "-").append(separator)
+            .append(movie.getNumberOfOscars());
 
         return builder.toString();
     }

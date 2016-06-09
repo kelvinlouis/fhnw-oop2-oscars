@@ -47,7 +47,16 @@ public class Movie {
 
     public Movie(int id, int year) {
         setId(id);
+        setTitle("");
         setYearOfAward(year);
+        setDirector("");
+        setMainActor("");
+        setTitleEnglish("");
+        setYearOfProduction(0);
+        setCountry(FXCollections.observableArrayList());
+        setDuration(0);
+        setFsk(0);
+        setGenre("");
         setStartDate(Optional.empty());
     }
 

@@ -5,7 +5,7 @@ import ch.fhnw.oop2.project.model.Movie;
 import ch.fhnw.oop2.project.view.MovieView;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -56,7 +56,11 @@ public class MasterPresenter {
     }
 
     public void save() {
-        System.out.println("save");
+        try {
+            service.save(view.selectFile());
+        } catch (IOException exception) {
+            System.out.println("ERROR: " + exception.getMessage());
+        }
     }
 
     public void add() {

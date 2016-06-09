@@ -1,5 +1,7 @@
 package ch.fhnw.oop2.project.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -7,7 +9,8 @@ import java.util.List;
  */
 public interface DataService <T> {
     List<T> getAll();
-    void save(List<T> list);
+    void save(File file, List<T> list) throws IOException;
+    void save(File file) throws IOException;
     T createItem();
     void removeItem(T item);
 }
