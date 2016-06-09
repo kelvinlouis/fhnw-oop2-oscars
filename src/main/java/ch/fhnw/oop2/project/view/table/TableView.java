@@ -88,4 +88,12 @@ public class TableView extends FXMLView implements Initializable {
         mainActorColumn.setCellValueFactory(data -> data.getValue().mainActorProperty());
         directorColumn.setCellValueFactory(data -> data.getValue().directorProperty());
     }
+
+    public void addMovie(Movie movie) {
+        int index = list.size();
+
+        list.add(movie);
+        table.scrollTo(index);
+        table.getSelectionModel().select(index);
+    }
 }

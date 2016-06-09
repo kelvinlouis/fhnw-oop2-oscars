@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
  */
 public class MovieService implements DataService<Movie> {
     private final String FILE_PATH = "../resources/movies.csv";
+    private List<Movie> list;
 
     private static MovieService instance = new MovieService();
 
@@ -27,16 +28,22 @@ public class MovieService implements DataService<Movie> {
 
     @Override
     public List<Movie> getAll() {
+        if (list != null) {
+            return list;
+        }
+
         try {
             InputStream stream = getClass().getResourceAsStream(FILE_PATH);
             BufferedReader buffer = new BufferedReader(new InputStreamReader(stream, Charset.forName("UTF-8")));
 
-            return buffer
+            list = buffer
                     .lines()
                     .skip(1)
                     .map(s -> s.split(";"))
                     .map(parts -> mapLineToMovie(parts))
                     .collect(Collectors.toList());
+
+            return list;
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
@@ -60,7 +67,13 @@ public class MovieService implements DataService<Movie> {
 
     @Override
     public Movie createItem() {
-        return null;
+        int index = list.size();
+        Movie last = list.get(index-1);
+
+        Movie movie = new Movie(index, last.getYearOfAward()+1);
+        list.add(movie);
+
+        return movie;
     }
 
     private Movie mapLineToMovie(String[] parts) {

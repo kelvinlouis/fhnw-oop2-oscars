@@ -61,7 +61,8 @@ public class MasterPresenter {
     }
 
     public void add() {
-        System.out.println("add");
+        Movie movie = service.createItem();
+        view.addedMovie(movie);
     }
 
     public void remove() {

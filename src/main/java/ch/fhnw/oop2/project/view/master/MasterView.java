@@ -88,4 +88,9 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
     public void changedDirector(Movie movie) {
         editorView.changedDirector(movie);
     }
+
+    @Override
+    public void addedMovie(Movie movie) {
+        tableView.addMovie(movie);
+    }
 }

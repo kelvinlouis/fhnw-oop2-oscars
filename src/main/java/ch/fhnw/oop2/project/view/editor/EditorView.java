@@ -29,7 +29,7 @@ public class EditorView extends FXMLView implements Initializable {
     private final MasterPresenter presenter;
     private ObjectProperty<Movie> selectedMovie = new SimpleObjectProperty<>();
 
-    private final int MAX_YEAR = LocalDate.now().getYear();
+    private final int MAX_YEAR = 2100;
     private final ObservableList<Integer> fskItems = FXCollections.observableArrayList(0, 6, 12, 16, 18);
     private boolean blockListeners = false;
 
@@ -184,12 +184,6 @@ public class EditorView extends FXMLView implements Initializable {
         addListener(element, getter, splitter, null);
     }
 
-    private void onMovieChange(Movie movie) {
-        this.blockListeners = true;
-        refreshElements(movie);
-        this.blockListeners = false;
-    }
-
     private void refreshElements(Movie movie) {
         titleTextField.textProperty().set(movie.getTitle());
         titleEnTextField.textProperty().set(movie.getTitleEnglish());
@@ -223,11 +217,10 @@ public class EditorView extends FXMLView implements Initializable {
     private void setPoster(int id) {
         URL resource = getClass().getResource("../../resources/posters/" + id + ".jpg");
 
-        if (resource != null) {
-            posterImage.setImage(new Image(resource.toExternalForm()));
-        } else {
-            posterImage.setImage(null);
+        if (resource == null) {
+            resource = getClass().getResource("../../resources/posters/no_poster.gif");
         }
+        posterImage.setImage(new Image(resource.toExternalForm()));
     }
 
     private void setOscars(int nr) {
@@ -255,7 +248,10 @@ public class EditorView extends FXMLView implements Initializable {
 
     public void changedSelectedMovie(Movie movie) {
         selectedMovie.setValue(movie);
+
+        this.blockListeners = true;
         refreshElements(movie);
+        this.blockListeners = false;
     }
 
     public void changedYearOfAward(Movie movie) {

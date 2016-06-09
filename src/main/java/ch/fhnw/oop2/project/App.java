@@ -2,7 +2,6 @@ package ch.fhnw.oop2.project;/**
  * Created by Kelvin on 07-May-16.
  */
 
-import ch.fhnw.oop2.project.model.MovieService;
 import ch.fhnw.oop2.project.view.master.MasterView;
 import javafx.application.Application;
 import javafx.scene.Scene;

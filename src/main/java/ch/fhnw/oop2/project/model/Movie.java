@@ -45,10 +45,13 @@ public class Movie {
         ObservableList<String> get(Movie movie);
     }
 
-
-    public Movie() {
-
+    public Movie(int id, int year) {
+        setId(id);
+        setYearOfAward(year);
+        setStartDate(Optional.empty());
     }
+
+    public Movie() {}
 
     public int getId() {
         return id.get();
