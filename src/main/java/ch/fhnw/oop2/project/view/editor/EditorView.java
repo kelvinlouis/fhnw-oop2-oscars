@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -31,7 +32,9 @@ public class EditorView extends FXMLView implements Initializable {
 
     private final int MAX_YEAR = 2100;
     private final ObservableList<Integer> fskItems = FXCollections.observableArrayList(0, 6, 12, 16, 18);
+
     private boolean blockListeners = false;
+    private boolean disabled = false;
 
     @FXML
     private Label yearOfAwardLabel;
@@ -89,6 +92,9 @@ public class EditorView extends FXMLView implements Initializable {
 
     @FXML
     private DatePicker launchDatePicker;
+
+    @FXML
+    private HBox blockMask;
 
     public EditorView(MasterPresenter presenter) {
         this.presenter = presenter;
@@ -204,14 +210,17 @@ public class EditorView extends FXMLView implements Initializable {
     }
 
     private void setFlags(List<String> countries) {
-        List<Node> flags = countries.stream()
-                .distinct()
-                .map(flag -> new FlagView(flag))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-
         flagsContainer.getChildren().clear();
-        flagsContainer.getChildren().addAll(flags);
+
+        if (countries != null) {
+            List<Node> flags = countries.stream()
+                    .distinct()
+                    .map(flag -> new FlagView(flag))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+
+            flagsContainer.getChildren().addAll(flags);
+        }
     }
 
     private void setPoster(int id) {
@@ -247,11 +256,55 @@ public class EditorView extends FXMLView implements Initializable {
     }
 
     public void changedSelectedMovie(Movie movie) {
-        selectedMovie.setValue(movie);
+        if (movie == null) {
+            disable();
+            clear();
+        } else {
+            enable();
 
-        this.blockListeners = true;
-        refreshElements(movie);
-        this.blockListeners = false;
+            selectedMovie.setValue(movie);
+
+            this.blockListeners = true;
+            refreshElements(movie);
+            this.blockListeners = false;
+        }
+    }
+
+    private void disable() {
+        if (disabled == false) {
+            blockMask.visibleProperty().setValue(true);
+            disabled = true;
+        }
+    }
+
+    private void clear() {
+        blockListeners = true;
+
+        titleTextField.textProperty().set("");
+        titleEnTextField.textProperty().set("");
+        yearOfAwardSpinner.setValueFactory(createSpinnerFactory(0, MAX_YEAR, 0));
+        directorTextField.textProperty().set("");
+        mainActorTextField.textProperty().set("");
+        genreTextField.textProperty().set("");
+        countryTextField.textProperty().set("");
+        productionYearSpinner.setValueFactory(createSpinnerFactory(0, MAX_YEAR, 0));
+        durationSpinner.setValueFactory(createSpinnerFactory(0,300, 0));
+        oscarsSpinner.setValueFactory(createSpinnerFactory(0, 10, 0));
+        launchDatePicker.setValue(null);
+        fskComboBox.setValue(0);
+
+        blockListeners = false;
+
+        setPoster(-1);
+        setFlags(null);
+        setOscars(0);
+    }
+
+    private void enable() {
+        if (disabled == true) {
+            blockMask.visibleProperty().setValue(false);
+            disabled = false;
+        }
     }
 
     public void changedYearOfAward(Movie movie) {
@@ -264,7 +317,6 @@ public class EditorView extends FXMLView implements Initializable {
 
     public void changedMainActor(Movie movie) {
         titleTextField.textProperty().set(movie.getMainActor());
-
     }
 
     public void changedDirector(Movie movie) {

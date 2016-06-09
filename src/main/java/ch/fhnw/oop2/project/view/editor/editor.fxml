@@ -11,8 +11,11 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -40,18 +43,18 @@
                       <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label fx:id="yearOfAwardLabel" styleClass="h2" text="1931" />
+                        <Label fx:id="yearOfAwardLabel" styleClass="h2" />
                         <HBox fx:id="flagsContainer" spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                      </children>
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </GridPane>
-                  <Label fx:id="titleLabel" styleClass="h1" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit." GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                  <Label fx:id="titleLabel" styleClass="h1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                   <HBox GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                      <children>
                         <Label styleClass="h2" text="by" />
-                        <Label fx:id="directorLabel" styleClass="h2" text="Kelvin Louis aka MADAFAKA">
+                        <Label fx:id="directorLabel" styleClass="h2">
                            <HBox.margin>
                               <Insets left="3.0" />
                            </HBox.margin>
@@ -61,7 +64,7 @@
                   <HBox GridPane.hgrow="ALWAYS" GridPane.rowIndex="3">
                      <children>
                         <Label styleClass="h2" text="starring" />
-                        <Label fx:id="mainActorLabel" styleClass="h2" text="Kelvin Louis aka Madafaka">
+                        <Label fx:id="mainActorLabel" styleClass="h2">
                            <HBox.margin>
                               <Insets left="3.0" />
                            </HBox.margin>
@@ -125,5 +128,18 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </VBox>
+      <HBox fx:id="blockMask" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane prefHeight="520.0" prefWidth="547.0" styleClass="blockRectangle" HBox.hgrow="ALWAYS">
+               <children>
+                  <Text fx:id="blockText" fill="WHITE" layoutX="140.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a Movie to Edit" textAlignment="CENTER">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

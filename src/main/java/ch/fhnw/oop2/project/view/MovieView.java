@@ -12,4 +12,5 @@ public interface MovieView {
     void changedMainActor(Movie movie);
     void changedDirector(Movie movie);
     void addedMovie(Movie movie);
+    void removedMovie(Movie movie);
 }

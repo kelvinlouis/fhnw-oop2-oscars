@@ -1,9 +1,8 @@
 package ch.fhnw.oop2.project;
 
-import ch.fhnw.oop2.project.model.DataService;
+import ch.fhnw.oop2.project.service.DataService;
 import ch.fhnw.oop2.project.model.Movie;
 import ch.fhnw.oop2.project.view.MovieView;
-import ch.fhnw.oop2.project.view.master.MasterView;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -66,7 +65,12 @@ public class MasterPresenter {
     }
 
     public void remove() {
-        System.out.println("remove");
+        Movie movie = selectedMovie.get();
+
+        if (movie != null) {
+            service.removeItem(movie);
+            view.removedMovie(movie);
+        }
     }
 
     public void filter(String text) {

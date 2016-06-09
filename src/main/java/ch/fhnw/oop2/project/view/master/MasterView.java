@@ -2,7 +2,7 @@ package ch.fhnw.oop2.project.view.master;
 
 import ch.fhnw.oop2.project.MasterPresenter;
 import ch.fhnw.oop2.project.model.Movie;
-import ch.fhnw.oop2.project.model.MovieService;
+import ch.fhnw.oop2.project.service.MovieService;
 import ch.fhnw.oop2.project.view.FXMLView;
 import ch.fhnw.oop2.project.view.MovieView;
 import ch.fhnw.oop2.project.view.editor.EditorView;
@@ -92,5 +92,9 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
     @Override
     public void addedMovie(Movie movie) {
         tableView.addMovie(movie);
+    }
+
+    public void removedMovie(Movie movie) {
+        tableView.removeMovie(movie);
     }
 }

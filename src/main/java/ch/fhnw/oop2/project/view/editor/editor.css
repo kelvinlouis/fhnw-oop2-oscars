@@ -22,3 +22,8 @@
 .poster {
     -fx-image: url("../../resources/posters/2.jpg");
 }
+
+.blockRectangle {
+    -fx-background-color: black;
+    -fx-opacity: 0.7;
+}

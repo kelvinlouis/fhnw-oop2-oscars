@@ -1,4 +1,4 @@
-package ch.fhnw.oop2.project.model;
+package ch.fhnw.oop2.project.service;
 
 import java.util.List;
 
@@ -9,4 +9,5 @@ public interface DataService <T> {
     List<T> getAll();
     void save(List<T> list);
     T createItem();
+    void removeItem(T item);
 }

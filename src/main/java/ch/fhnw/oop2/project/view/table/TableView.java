@@ -53,9 +53,7 @@ public class TableView extends FXMLView implements Initializable {
 
     private void initializeListeners() {
         table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                presenter.setSelectedMovie(newValue);
-            }
+            presenter.setSelectedMovie(newValue);
         });
 
         yearColumn.setOnEditCommit(event -> presenter.setYearOfAward((int) event.getNewValue()));
@@ -94,6 +92,11 @@ public class TableView extends FXMLView implements Initializable {
 
         list.add(movie);
         table.scrollTo(index);
-        table.getSelectionModel().select(index);
+        table.getSelectionModel().selectLast();
+    }
+
+    public void removeMovie(Movie movie) {
+        list.remove(movie);
+        table.getSelectionModel().select(null);
     }
 }

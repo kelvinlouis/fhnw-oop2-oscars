@@ -1,4 +1,6 @@
-package ch.fhnw.oop2.project.model;
+package ch.fhnw.oop2.project.service;
+
+import ch.fhnw.oop2.project.model.Movie;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -74,6 +76,10 @@ public class MovieService implements DataService<Movie> {
         list.add(movie);
 
         return movie;
+    }
+
+    public void removeItem(Movie movie) {
+        list.remove(movie);
     }
 
     private Movie mapLineToMovie(String[] parts) {
