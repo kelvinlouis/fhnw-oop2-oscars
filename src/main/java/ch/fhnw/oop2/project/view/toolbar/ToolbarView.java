@@ -36,7 +36,7 @@ public class ToolbarView extends FXMLView implements Initializable {
 
     public ToolbarView(MasterPresenter presenter) {
         this.presenter = presenter;
-        load("toolbar.fxml", "toolbar.css");
+        load();
     }
 
     @Override

@@ -41,7 +41,7 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
         // Using the stage for saving the file
         this.stage = stage;
         this.presenter = new MasterPresenter(MovieService.getInstance(), this);
-        load("master.fxml", "master.css");
+        load();
     }
 
     @Override
@@ -116,5 +116,9 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
 
     public void filterMovies(String str) {
         tableView.filterMovies(str);
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }

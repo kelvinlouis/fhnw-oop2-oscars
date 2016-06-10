@@ -53,7 +53,7 @@
                   <Label fx:id="titleLabel" styleClass="h1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                   <HBox GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                      <children>
-                        <Label styleClass="h2" text="by" />
+                        <Label styleClass="h2" text="%editor.by" />
                         <Label fx:id="directorLabel" styleClass="h2">
                            <HBox.margin>
                               <Insets left="3.0" />
@@ -63,7 +63,7 @@
                   </HBox>
                   <HBox GridPane.hgrow="ALWAYS" GridPane.rowIndex="3">
                      <children>
-                        <Label styleClass="h2" text="starring" />
+                        <Label styleClass="h2" text="%editor.starring" />
                         <Label fx:id="mainActorLabel" styleClass="h2">
                            <HBox.margin>
                               <Insets left="3.0" />
@@ -94,18 +94,18 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label prefHeight="17.0" prefWidth="125.0" styleClass="form-label" text="Year" />
-                  <Label styleClass="form-label" text="Title" GridPane.rowIndex="1" />
-                  <Label styleClass="form-label" text="Director" GridPane.rowIndex="2" />
-                  <Label styleClass="form-label" text="Actors" GridPane.rowIndex="3" />
-                  <Label styleClass="form-label" text="Title (en)" GridPane.rowIndex="4" />
-                  <Label styleClass="form-label" text="Genre" GridPane.rowIndex="5" />
-                  <Label styleClass="form-label" text="Country" GridPane.rowIndex="6" />
-                  <Label styleClass="form-label" text="FSK (Age Restriction)" GridPane.rowIndex="7" />
-                  <Label styleClass="form-label" text="Oscars" GridPane.rowIndex="8" />
-                  <Label styleClass="form-label" text="Production Year" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                  <Label styleClass="form-label" text="Duration (minutes)" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                  <Label styleClass="form-label" text="Launch Date" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                  <Label prefHeight="17.0" prefWidth="125.0" styleClass="form-label" text="%editor.yearOfAward" />
+                  <Label styleClass="form-label" text="%editor.title" GridPane.rowIndex="1" />
+                  <Label styleClass="form-label" text="%editor.director" GridPane.rowIndex="2" />
+                  <Label styleClass="form-label" text="%editor.actors" GridPane.rowIndex="3" />
+                  <Label styleClass="form-label" text="%editor.titleEnglish" GridPane.rowIndex="4" />
+                  <Label styleClass="form-label" text="%editor.genre" GridPane.rowIndex="5" />
+                  <Label styleClass="form-label" text="%editor.country" GridPane.rowIndex="6" />
+                  <Label styleClass="form-label" text="%editor.fsk" GridPane.rowIndex="7" />
+                  <Label styleClass="form-label" text="%editor.oscars" GridPane.rowIndex="8" />
+                  <Label styleClass="form-label" text="%editor.productionYear" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <Label styleClass="form-label" text="%editor.duration" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                  <Label styleClass="form-label" text="%editor.launchDate" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                   <Spinner fx:id="yearOfAwardSpinner" GridPane.columnIndex="1" />
                   <TextField fx:id="titleTextField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                   <TextField fx:id="directorTextField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
@@ -132,7 +132,7 @@
          <children>
             <Pane prefHeight="520.0" prefWidth="547.0" styleClass="blockRectangle" HBox.hgrow="ALWAYS">
                <children>
-                  <Text fx:id="blockText" fill="WHITE" layoutX="140.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a Movie to Edit" textAlignment="CENTER">
+                  <Text fx:id="blockText" fill="WHITE" layoutX="140.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%editor.blockedText" textAlignment="CENTER">
                      <font>
                         <Font size="28.0" />
                      </font>

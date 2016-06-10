@@ -45,7 +45,7 @@ public class TableView extends FXMLView implements Initializable {
 
     public TableView(MasterPresenter presenter) {
         this.presenter = presenter;
-        load("table.fxml", "table.css");
+        load();
     }
 
     public void initialize(URL location, ResourceBundle resources) {

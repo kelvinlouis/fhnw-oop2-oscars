@@ -1,6 +1,7 @@
 package ch.fhnw.oop2.project.view;
 
 import ch.fhnw.oop2.project.model.Movie;
+import javafx.stage.Stage;
 
 import java.io.File;
 
@@ -17,4 +18,5 @@ public interface MovieView {
     void removedMovie(Movie movie);
     void filterMovies(String text);
     File chooseSaveFile();
+    Stage getStage();
 }

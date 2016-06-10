@@ -96,7 +96,7 @@ public class EditorView extends FXMLView implements Initializable {
 
     public EditorView(MasterPresenter presenter) {
         this.presenter = presenter;
-        load("editor.fxml", "editor.css");
+        load();
     }
 
     @Override

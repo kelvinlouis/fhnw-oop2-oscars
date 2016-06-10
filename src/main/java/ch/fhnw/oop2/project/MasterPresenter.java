@@ -3,10 +3,16 @@ package ch.fhnw.oop2.project;
 import ch.fhnw.oop2.project.service.DataService;
 import ch.fhnw.oop2.project.model.Movie;
 import ch.fhnw.oop2.project.view.MovieView;
+import ch.fhnw.oop2.project.view.master.MasterView;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Kelvin on 07-May-16.
@@ -87,7 +93,17 @@ public class MasterPresenter {
     }
 
     public void undo() {
-        System.out.println("undo");
+        if (Locale.getDefault() == Locale.GERMAN) {
+            Locale.setDefault(Locale.ENGLISH);
+        } else {
+            Locale.setDefault(Locale.GERMAN);
+        }
+        Stage stage = view.getStage();
+        view = new MasterView(stage);
+
+        ObservableList<Node> children = stage.getScene().getRoot().getChildrenUnmodifiable();
+        children.clear();
+        children.add((Node) view);
     }
 
     public void redo() {
