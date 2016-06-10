@@ -25,7 +25,12 @@ public class MasterPresenter {
         return service.getAll();
     }
 
-    public void setSelectedMovie(Movie movie) {
+    public void setSelectedMovie(Movie movie, Movie oldMovie) {
+        if (oldMovie != null && oldMovie.getState() == Movie.State.SELECTED) {
+            oldMovie.setState(Movie.State.UNTOUCHED);
+        }
+
+        movie.setState(Movie.State.SELECTED);
         selectedMovie.setValue(movie);
         view.changedSelectedMovie(movie);
     }
@@ -39,18 +44,21 @@ public class MasterPresenter {
 
     public void setTitle(String title) {
         Movie movie = selectedMovie.get();
+        movie.setState(Movie.State.CHANGED);
         movie.titleProperty().set(title);
         view.changedTitle(movie);
     }
 
     public void setMainActor(String actors) {
         Movie movie = selectedMovie.get();
+        movie.setState(Movie.State.CHANGED);
         movie.mainActorProperty().set(actors);
         view.changedMainActor(movie);
     }
 
     public void setDirector(String directors) {
         Movie movie = selectedMovie.get();
+        movie.setState(Movie.State.CHANGED);
         movie.directorProperty().setValue(directors);
         view.changedDirector(movie);
     }

@@ -1,6 +1,5 @@
 package ch.fhnw.oop2.project.view.table;
 
-import ch.fhnw.oop2.project.LevenshteinDistance;
 import ch.fhnw.oop2.project.view.FXMLView;
 import ch.fhnw.oop2.project.model.Movie;
 import ch.fhnw.oop2.project.MasterPresenter;
@@ -15,9 +14,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.StringConverter;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 /**
  * Created by Kelvin on 07-May-16.
@@ -31,6 +28,9 @@ public class TableView extends FXMLView implements Initializable {
     javafx.scene.control.TableView<Movie> table;
 
     @FXML
+    private TableColumn<Movie, Number> stateColumn;
+
+    @FXML
     private TableColumn<Movie, Number> yearColumn;
 
     @FXML
@@ -41,6 +41,7 @@ public class TableView extends FXMLView implements Initializable {
 
     @FXML
     private TableColumn<Movie, String> mainActorColumn;
+
 
     public TableView(MasterPresenter presenter) {
         this.presenter = presenter;
@@ -68,7 +69,7 @@ public class TableView extends FXMLView implements Initializable {
 
     private void initializeListeners() {
         table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            presenter.setSelectedMovie(newValue);
+            presenter.setSelectedMovie(newValue, oldValue);
         });
 
         yearColumn.setOnEditCommit(event -> presenter.setYearOfAward((int) event.getNewValue()));
@@ -78,6 +79,8 @@ public class TableView extends FXMLView implements Initializable {
     }
 
     private void setCellFactories() {
+        stateColumn.setCellFactory(param -> new TableStateCell());
+
         yearColumn.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Number>() {
             @Override
             public String toString(Number object) {
@@ -96,6 +99,7 @@ public class TableView extends FXMLView implements Initializable {
     }
 
     private void setCellValueFactories() {
+        stateColumn.setCellValueFactory(data -> data.getValue().stateProperty());
         yearColumn.setCellValueFactory(data -> data.getValue().yearOfAwardProperty());
         titleColumn.setCellValueFactory(data -> data.getValue().titleProperty());
         mainActorColumn.setCellValueFactory(data -> data.getValue().mainActorProperty());

@@ -134,6 +134,7 @@ public class EditorView extends FXMLView implements Initializable {
     private void addListener(TextInputControl element, Movie.MovieStringSetter setter) {
         element.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && blockListeners == false) {
+                beforeSetNewValue();
                 setter.set(selectedMovie.get(), newValue);
             }
         });
@@ -142,6 +143,7 @@ public class EditorView extends FXMLView implements Initializable {
     private void addListener(Spinner element, Movie.MovieIntegerSetter setter, Consumer<Integer> con) {
         element.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && blockListeners == false) {
+                beforeSetNewValue();
                 setter.set(selectedMovie.get(), (int) newValue);
 
                 if (con != null) {
@@ -159,6 +161,7 @@ public class EditorView extends FXMLView implements Initializable {
     private void addListener(ComboBox<Integer> element, Movie.MovieIntegerSetter setter) {
         element.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && blockListeners == false) {
+                beforeSetNewValue();
                 setter.set(selectedMovie.get(), newValue);
             }
         });
@@ -167,6 +170,7 @@ public class EditorView extends FXMLView implements Initializable {
     private void addListener(DatePicker element, Movie.MovieDateSetter setter) {
         element.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && blockListeners == false) {
+                beforeSetNewValue();
                 setter.set(selectedMovie.get(), Optional.of(newValue));
             }
         });
@@ -176,6 +180,8 @@ public class EditorView extends FXMLView implements Initializable {
         element.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && blockListeners == false) {
                 List<String> newList = Arrays.asList(newValue.split(splitter));
+
+                beforeSetNewValue();
                 getter.get(selectedMovie.get()).setAll(newList);
 
                 if (con != null) {
@@ -188,6 +194,10 @@ public class EditorView extends FXMLView implements Initializable {
 
     private void addListener(TextInputControl element, Movie.MovieListGetter getter, String splitter) {
         addListener(element, getter, splitter, null);
+    }
+
+    private void beforeSetNewValue() {
+        selectedMovie.get().setState(Movie.State.CHANGED);
     }
 
     private void refreshElements(Movie movie) {

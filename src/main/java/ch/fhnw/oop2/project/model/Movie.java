@@ -12,6 +12,7 @@ import java.util.Optional;
  */
 public class Movie {
     private IntegerProperty id = new SimpleIntegerProperty();
+    private IntegerProperty state = new SimpleIntegerProperty();
     private StringProperty title = new SimpleStringProperty();
     private IntegerProperty yearOfAward = new SimpleIntegerProperty();
     private StringProperty director = new SimpleStringProperty();
@@ -45,8 +46,18 @@ public class Movie {
         ObservableList<String> get(Movie movie);
     }
 
+    public enum State {
+        UNTOUCHED, SELECTED, CHANGED, ADDED;
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase();
+        }
+    }
+
     public Movie(int id, int year) {
         setId(id);
+        setState(State.ADDED);
         setTitle("");
         setYearOfAward(year);
         setDirector("");
@@ -60,7 +71,9 @@ public class Movie {
         setStartDate(Optional.empty());
     }
 
-    public Movie() {}
+    public Movie() {
+        setState(State.UNTOUCHED);
+    }
 
     @Override
     public String toString() {
@@ -87,6 +100,18 @@ public class Movie {
 
     public void setId(int id) {
         this.id.set(id);
+    }
+
+    public Movie.State getState() {
+        return State.values()[state.get()];
+    }
+
+    public IntegerProperty stateProperty() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state.set(state.ordinal());
     }
 
     public String getTitle() {
