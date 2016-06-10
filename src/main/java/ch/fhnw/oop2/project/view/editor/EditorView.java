@@ -14,10 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -106,6 +104,7 @@ public class EditorView extends FXMLView implements Initializable {
         initializeBindings();
         initializeListeners();
         changeFSKItems();
+        disable();
     }
 
     private void initializeBindings() {
@@ -282,7 +281,7 @@ public class EditorView extends FXMLView implements Initializable {
 
     private void disable() {
         if (disabled == false) {
-            blockMask.visibleProperty().setValue(true);
+            disableElements(true);
             disabled = true;
         }
     }
@@ -312,9 +311,27 @@ public class EditorView extends FXMLView implements Initializable {
 
     private void enable() {
         if (disabled == true) {
-            blockMask.visibleProperty().setValue(false);
+            disableElements(false);
             disabled = false;
         }
+    }
+
+    private void disableElements(boolean state) {
+        blockMask.visibleProperty().setValue(state);
+        yearOfAwardLabel.disableProperty().setValue(state);
+        posterImage.disableProperty().setValue(state);
+        titleTextField.disableProperty().setValue(state);
+        titleEnTextField.disableProperty().setValue(state);
+        yearOfAwardSpinner.disableProperty().setValue(state);
+        directorTextField.disableProperty().setValue(state);
+        mainActorTextField.disableProperty().setValue(state);
+        genreTextField.disableProperty().setValue(state);
+        countryTextField.disableProperty().setValue(state);
+        productionYearSpinner.disableProperty().setValue(state);
+        durationSpinner.disableProperty().setValue(state);
+        oscarsSpinner.disableProperty().setValue(state);
+        launchDatePicker.disableProperty().setValue(state);
+        fskComboBox.disableProperty().setValue(state);
     }
 
     public void changedYearOfAward(Movie movie) {
