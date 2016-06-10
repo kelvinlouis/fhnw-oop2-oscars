@@ -26,11 +26,8 @@ public class MasterPresenter {
     }
 
     public void setSelectedMovie(Movie movie, Movie oldMovie) {
-        if (oldMovie != null && oldMovie.getState() == Movie.State.SELECTED) {
-            oldMovie.setState(Movie.State.UNTOUCHED);
-        }
+        adjustStates(movie, oldMovie);
 
-        movie.setState(Movie.State.SELECTED);
         selectedMovie.setValue(movie);
         view.changedSelectedMovie(movie);
     }
@@ -95,5 +92,23 @@ public class MasterPresenter {
 
     public void redo() {
         System.out.println("redo");
+    }
+
+    private void adjustStates(Movie movie, Movie oldMovie) {
+        if (oldMovie != null) {
+            if (oldMovie.getState() == Movie.State.SELECTED) {
+                oldMovie.setState(Movie.State.UNTOUCHED);
+            } else if (oldMovie.getState() == Movie.State.SELECTED_CHANGED) {
+                oldMovie.setState(Movie.State.CHANGED);
+            }
+        }
+
+        if (movie != null) {
+            if (movie.getState() == Movie.State.CHANGED) {
+                movie.setState(Movie.State.SELECTED_CHANGED);
+            } else {
+                movie.setState(Movie.State.SELECTED);
+            }
+        }
     }
 }

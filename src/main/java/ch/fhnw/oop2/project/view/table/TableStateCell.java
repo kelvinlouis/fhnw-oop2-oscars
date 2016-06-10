@@ -28,13 +28,13 @@ class TableStateCell extends TableCell<Movie, Number> {
 
     @Override
     protected void updateItem(Number item, boolean empty) {
-        String icon = "untouched";
-
         if (item != null) {
-            icon = Movie.State.values()[item.intValue()].toString();
+            String state = Movie.State.values()[item.intValue()].toString();
+            String url = getClass().getResource("../../resources/marks/"  + state + ".png").toExternalForm();
+            imageView.setImage(new Image(url));
+        } else {
+            imageView.setImage(null);
         }
 
-        String url = getClass().getResource("../../resources/marks/"  + icon + ".png").toExternalForm();
-        imageView.setImage(new Image(url));
     }
 }

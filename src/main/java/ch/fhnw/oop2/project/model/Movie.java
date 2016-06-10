@@ -47,7 +47,7 @@ public class Movie {
     }
 
     public enum State {
-        UNTOUCHED, SELECTED, CHANGED, ADDED;
+        UNTOUCHED, SELECTED, CHANGED, SELECTED_CHANGED;
 
         @Override
         public String toString() {
@@ -57,7 +57,7 @@ public class Movie {
 
     public Movie(int id, int year) {
         setId(id);
-        setState(State.ADDED);
+        setState(State.UNTOUCHED);
         setTitle("");
         setYearOfAward(year);
         setDirector("");

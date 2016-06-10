@@ -197,7 +197,7 @@ public class EditorView extends FXMLView implements Initializable {
     }
 
     private void beforeSetNewValue() {
-        selectedMovie.get().setState(Movie.State.CHANGED);
+        selectedMovie.get().setState(Movie.State.SELECTED_CHANGED);
     }
 
     private void refreshElements(Movie movie) {
