@@ -44,7 +44,6 @@ public class ToolbarView extends FXMLView implements Initializable {
         initializeListeners();
     }
 
-
     private void initializeListeners() {
         saveButton.setOnMouseClicked(event -> presenter.save());
         addButton.setOnMouseClicked(event -> presenter.add());
@@ -52,5 +51,9 @@ public class ToolbarView extends FXMLView implements Initializable {
         undoButton.setOnMouseClicked(event -> presenter.undo());
         redoButton.setOnMouseClicked(event -> presenter.redo());
         filterTextField.textProperty().addListener((observable, oldValue, newValue) -> presenter.filter(newValue));
+    }
+
+    public void clearFilter() {
+        filterTextField.textProperty().set("");
     }
 }

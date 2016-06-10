@@ -1,10 +1,12 @@
 package ch.fhnw.oop2.project.view.table;
 
+import ch.fhnw.oop2.project.LevenshteinDistance;
 import ch.fhnw.oop2.project.view.FXMLView;
 import ch.fhnw.oop2.project.model.Movie;
 import ch.fhnw.oop2.project.MasterPresenter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -12,14 +14,17 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.StringConverter;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * Created by Kelvin on 07-May-16.
  */
 public class TableView extends FXMLView implements Initializable {
-    private ObservableList<Movie> list = FXCollections.observableArrayList();
     private MasterPresenter presenter;
+    private ObservableList<Movie> list = FXCollections.observableArrayList();
+    private FilteredList<Movie> filteredList;
 
     @FXML
     javafx.scene.control.TableView<Movie> table;
@@ -43,7 +48,8 @@ public class TableView extends FXMLView implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         list.addAll(presenter.getMovies());
-        table.setItems(list);
+        filteredList = new FilteredList<>(list, p -> true);
+        table.setItems(filteredList);
         table.setEditable(true);
 
         setCellValueFactories();
@@ -98,5 +104,37 @@ public class TableView extends FXMLView implements Initializable {
     public void removeMovie(Movie movie) {
         list.remove(movie);
         table.getSelectionModel().select(null);
+    }
+
+    public void filterMovies(String str) {
+        filteredList.setPredicate(movie -> {
+            if (str == null || str.isEmpty()) return true;
+
+            String lcFilter = str.toLowerCase();
+
+            if (movie.toString().toLowerCase().contains(lcFilter)) {
+                return true;
+            }
+
+            return false;
+        });
+
+        table.setItems(filteredList);
+//        if (str.isEmpty()) {
+//            table.setItems(list);
+//            return;
+//        }
+//
+//        final String lowerStr = str.toLowerCase();
+//        List<Movie> filteredList = list.stream().filter(movie -> {
+//            int ldTitle = LevenshteinDistance.compute(movie.getTitle(), lowerStr);
+//            int ldTitleEn = LevenshteinDistance.compute(movie.getTitleEnglish(), lowerStr);
+//            System.out.println(ldTitle + ":" + ldTitleEn);
+//            return ldTitle < 10 || ldTitleEn < 10;
+//        }).collect(Collectors.toList());
+//
+//        table.setItems(FXCollections.observableArrayList(filteredList));
+//
+//        System.out.println(filteredList.size());
     }
 }

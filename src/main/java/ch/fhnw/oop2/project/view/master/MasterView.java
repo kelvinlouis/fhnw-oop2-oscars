@@ -97,6 +97,7 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
 
     @Override
     public void addedMovie(Movie movie) {
+        toolbarView.clearFilter();
         tableView.addMovie(movie);
     }
 
@@ -111,5 +112,9 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
         fileChooser.getExtensionFilters().add(extensionFilter);
 
         return fileChooser.showSaveDialog(stage);
+    }
+
+    public void filterMovies(String str) {
+        tableView.filterMovies(str);
     }
 }

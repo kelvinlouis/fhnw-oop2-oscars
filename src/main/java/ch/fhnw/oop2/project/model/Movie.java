@@ -62,6 +62,21 @@ public class Movie {
 
     public Movie() {}
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        final String sep = ",";
+
+        sb.append(getTitle()).append(sep)
+            .append(getYearOfAward()).append(sep)
+            .append(getDirector()).append(sep)
+            .append(getMainActor()).append(sep)
+            .append(getTitleEnglish()).append(sep)
+            .append(getGenre());
+
+        return sb.toString();
+    }
+
     public int getId() {
         return id.get();
     }
@@ -189,7 +204,6 @@ public class Movie {
     public void setFsk(int fsk) {
         this.fsk.set(fsk);
     }
-
 
     public Optional<LocalDate> getStartDate() {
         return startDate.get();

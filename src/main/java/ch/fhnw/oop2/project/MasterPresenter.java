@@ -59,7 +59,7 @@ public class MasterPresenter {
         try {
             service.save(view.selectFile());
         } catch (IOException exception) {
-            System.out.println("ERROR: " + exception.getMessage());
+            // Show notification?
         }
     }
 
@@ -78,7 +78,8 @@ public class MasterPresenter {
     }
 
     public void filter(String text) {
-        System.out.println("filter");
+        view.filterMovies(text);
+
     }
 
     public void undo() {

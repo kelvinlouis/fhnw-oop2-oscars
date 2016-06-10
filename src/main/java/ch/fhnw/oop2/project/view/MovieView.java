@@ -15,5 +15,6 @@ public interface MovieView {
     void changedDirector(Movie movie);
     void addedMovie(Movie movie);
     void removedMovie(Movie movie);
+    void filterMovies(String text);
     File selectFile();
 }
