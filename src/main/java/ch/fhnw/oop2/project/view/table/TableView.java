@@ -7,6 +7,7 @@ import ch.fhnw.oop2.project.MasterPresenter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -47,14 +48,22 @@ public class TableView extends FXMLView implements Initializable {
     }
 
     public void initialize(URL location, ResourceBundle resources) {
-        list.addAll(presenter.getMovies());
-        filteredList = new FilteredList<>(list, p -> true);
-        table.setItems(filteredList);
-        table.setEditable(true);
-
+        initializeTableList();
         setCellValueFactories();
         setCellFactories();
         initializeListeners();
+    }
+
+    private void initializeTableList() {
+        list.addAll(presenter.getMovies());
+
+        // Use a filtered and sorted list for the table
+        filteredList = new FilteredList<>(list, p -> true);
+        SortedList<Movie> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(table.comparatorProperty());
+        table.setItems(sortedList);
+
+        table.setEditable(true);
     }
 
     private void initializeListeners() {
@@ -118,23 +127,5 @@ public class TableView extends FXMLView implements Initializable {
 
             return false;
         });
-
-        table.setItems(filteredList);
-//        if (str.isEmpty()) {
-//            table.setItems(list);
-//            return;
-//        }
-//
-//        final String lowerStr = str.toLowerCase();
-//        List<Movie> filteredList = list.stream().filter(movie -> {
-//            int ldTitle = LevenshteinDistance.compute(movie.getTitle(), lowerStr);
-//            int ldTitleEn = LevenshteinDistance.compute(movie.getTitleEnglish(), lowerStr);
-//            System.out.println(ldTitle + ":" + ldTitleEn);
-//            return ldTitle < 10 || ldTitleEn < 10;
-//        }).collect(Collectors.toList());
-//
-//        table.setItems(FXCollections.observableArrayList(filteredList));
-//
-//        System.out.println(filteredList.size());
     }
 }

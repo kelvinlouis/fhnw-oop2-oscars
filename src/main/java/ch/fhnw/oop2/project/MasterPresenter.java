@@ -57,7 +57,7 @@ public class MasterPresenter {
 
     public void save() {
         try {
-            service.save(view.selectFile());
+            service.save(view.chooseSaveFile());
         } catch (IOException exception) {
             // Show notification?
         }
@@ -79,7 +79,6 @@ public class MasterPresenter {
 
     public void filter(String text) {
         view.filterMovies(text);
-
     }
 
     public void undo() {

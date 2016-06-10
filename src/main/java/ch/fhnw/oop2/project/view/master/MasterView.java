@@ -105,7 +105,7 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
         tableView.removeMovie(movie);
     }
 
-    public File selectFile() {
+    public File chooseSaveFile() {
         FileChooser fileChooser = new FileChooser();
 
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("CSV", "*.csv");
