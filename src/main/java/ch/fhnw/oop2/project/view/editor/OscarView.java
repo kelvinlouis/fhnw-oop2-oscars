@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
  */
 class OscarView extends ImageView {
     OscarView() {
-        setImage(new Image(getClass().getResource("../../resources/oscar.png").toExternalForm()));
+        setImage(new Image(getClass().getResource("/oscar.png").toExternalForm()));
         setFitHeight(40);
         setPreserveRatio(true);
     }

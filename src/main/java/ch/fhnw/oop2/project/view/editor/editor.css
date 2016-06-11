@@ -19,7 +19,7 @@
 }
 
 .poster {
-    -fx-image: url("../../resources/posters/no_poster.gif");
+    -fx-image: url("/posters/no_poster.gif");
 }
 
 .blockRectangle {

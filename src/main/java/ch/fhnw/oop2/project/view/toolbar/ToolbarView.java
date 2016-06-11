@@ -1,12 +1,11 @@
 package ch.fhnw.oop2.project.view.toolbar;
 
 import ch.fhnw.oop2.project.view.FXMLView;
-import ch.fhnw.oop2.project.MasterPresenter;
+import ch.fhnw.oop2.project.MoviePresenter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.net.URL;
@@ -17,7 +16,7 @@ import java.util.ResourceBundle;
  * Created by Kelvin on 07-May-16.
  */
 public class ToolbarView extends FXMLView implements Initializable {
-    private MasterPresenter presenter;
+    private MoviePresenter presenter;
 
     @FXML
     private Button saveButton;
@@ -43,7 +42,7 @@ public class ToolbarView extends FXMLView implements Initializable {
     @FXML
     private TextField filterTextField;
 
-    public ToolbarView(MasterPresenter presenter) {
+    public ToolbarView(MoviePresenter presenter) {
         this.presenter = presenter;
         load();
     }

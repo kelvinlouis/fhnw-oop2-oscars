@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * Created by Kelvin on 07-May-16.
  */
 public class MovieService implements DataService<Movie> {
-    private final String FILE_PATH = "../resources/movies.csv";
+    private final String FILE_PATH = "/movies.csv";
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private List<Movie> list;
 

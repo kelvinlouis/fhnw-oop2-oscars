@@ -30,7 +30,7 @@ class TableStateCell extends TableCell<Movie, Number> {
     protected void updateItem(Number item, boolean empty) {
         if (item != null) {
             String state = Movie.State.values()[item.intValue()].toString();
-            String url = getClass().getResource("../../resources/marks/"  + state + ".png").toExternalForm();
+            String url = getClass().getResource("/marks/"  + state + ".png").toExternalForm();
             imageView.setImage(new Image(url));
         } else {
             imageView.setImage(null);

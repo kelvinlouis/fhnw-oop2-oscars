@@ -29,12 +29,12 @@
          <children>
             <ImageView fx:id="enLang" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
                <image>
-                  <Image url="@../../resources/flags/us.png" />
+                  <Image url="@/flags/us.png" />
                </image>
             </ImageView>
             <ImageView fx:id="deLang" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
                <image>
-                  <Image url="@../../resources/flags/de.png" />
+                  <Image url="@/flags/de.png" />
                </image>
                <HBox.margin>
                   <Insets />

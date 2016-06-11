@@ -19,12 +19,12 @@ import java.util.Locale;
 /**
  * Created by Kelvin on 07-May-16.
  */
-public class MasterPresenter {
+public class MoviePresenter {
     private ObjectProperty<Movie> selectedMovie = new SimpleObjectProperty<>();
     private DataService<Movie> service;
     private MovieView view;
 
-    public MasterPresenter(DataService service, MovieView view) {
+    public MoviePresenter(DataService service, MovieView view) {
         this.service = service;
         this.view = view;
     }

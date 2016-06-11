@@ -11,27 +11,27 @@
 }
 
 #saveButton {
-    -fx-background-image: url("../../resources/icons/save.svg.png");
+    -fx-background-image: url("/icons/save.svg.png");
 }
 
 #addButton {
-    -fx-background-image: url("../../resources/icons/add.svg.png");
+    -fx-background-image: url("/icons/add.svg.png");
 }
 
 #removeButton {
-    -fx-background-image: url("../../resources/icons/remove.svg.png");
+    -fx-background-image: url("/icons/remove.svg.png");
 }
 
 #undoButton {
-    -fx-background-image: url("../../resources/icons/undo.svg.png");
+    -fx-background-image: url("/icons/undo.svg.png");
 }
 
 #redoButton {
-    -fx-background-image: url("../../resources/icons/redo.svg.png");
+    -fx-background-image: url("/icons/redo.svg.png");
 }
 
 .filter {
-    -fx-background-image: url("../../resources/icons/find.svg.png");
+    -fx-background-image: url("/icons/find.svg.png");
     -fx-background-repeat: no-repeat;
     -fx-background-position: right;
     -fx-padding: 2px 16px 2px 2px;

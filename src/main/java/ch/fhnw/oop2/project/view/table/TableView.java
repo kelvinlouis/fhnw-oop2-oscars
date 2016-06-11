@@ -2,7 +2,7 @@ package ch.fhnw.oop2.project.view.table;
 
 import ch.fhnw.oop2.project.view.FXMLView;
 import ch.fhnw.oop2.project.model.Movie;
-import ch.fhnw.oop2.project.MasterPresenter;
+import ch.fhnw.oop2.project.MoviePresenter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
  * Created by Kelvin on 07-May-16.
  */
 public class TableView extends FXMLView implements Initializable {
-    private MasterPresenter presenter;
+    private MoviePresenter presenter;
     private ObservableList<Movie> list = FXCollections.observableArrayList();
     private FilteredList<Movie> filteredList;
 
@@ -43,7 +43,7 @@ public class TableView extends FXMLView implements Initializable {
     private TableColumn<Movie, String> mainActorColumn;
 
 
-    public TableView(MasterPresenter presenter) {
+    public TableView(MoviePresenter presenter) {
         this.presenter = presenter;
         load();
     }

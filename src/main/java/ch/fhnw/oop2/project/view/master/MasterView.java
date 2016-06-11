@@ -1,6 +1,6 @@
 package ch.fhnw.oop2.project.view.master;
 
-import ch.fhnw.oop2.project.MasterPresenter;
+import ch.fhnw.oop2.project.MoviePresenter;
 import ch.fhnw.oop2.project.model.Movie;
 import ch.fhnw.oop2.project.service.MovieService;
 import ch.fhnw.oop2.project.view.FXMLView;
@@ -10,7 +10,6 @@ import ch.fhnw.oop2.project.view.table.TableView;
 import ch.fhnw.oop2.project.view.toolbar.ToolbarView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
@@ -24,7 +23,7 @@ import java.util.ResourceBundle;
  * Created by Kelvin on 07-May-16.
  */
 public class MasterView extends FXMLView implements Initializable, MovieView {
-    private final MasterPresenter presenter;
+    private final MoviePresenter presenter;
     private final Stage stage;
 
     @FXML
@@ -41,7 +40,7 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
     public MasterView(Stage stage) {
         // Using the stage for saving the file
         this.stage = stage;
-        this.presenter = new MasterPresenter(MovieService.getInstance(), this);
+        this.presenter = new MoviePresenter(MovieService.getInstance(), this);
 
         load();
     }

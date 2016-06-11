@@ -14,7 +14,7 @@ class FSKCell extends ListCell<Integer> {
         if (item == null || empty) {
             setGraphic(null);
         } else {
-            String url = getClass().getResource("../../resources/fsk_labels/"  + item + ".png").toExternalForm();
+            String url = getClass().getResource("/fsk_labels/"  + item + ".png").toExternalForm();
             ImageView image = new ImageView(url);
             image.setPreserveRatio(true);
 

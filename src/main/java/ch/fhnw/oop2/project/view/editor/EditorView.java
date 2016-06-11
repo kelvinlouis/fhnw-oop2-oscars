@@ -2,7 +2,7 @@ package ch.fhnw.oop2.project.view.editor;
 
 import ch.fhnw.oop2.project.view.FXMLView;
 import ch.fhnw.oop2.project.model.Movie;
-import ch.fhnw.oop2.project.MasterPresenter;
+import ch.fhnw.oop2.project.MoviePresenter;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
  * Created by Kelvin on 07-May-16.
  */
 public class EditorView extends FXMLView implements Initializable {
-    private final MasterPresenter presenter;
+    private final MoviePresenter presenter;
     private ObjectProperty<Movie> selectedMovie = new SimpleObjectProperty<>();
 
     private final int MAX_YEAR = 2100;
@@ -94,7 +94,7 @@ public class EditorView extends FXMLView implements Initializable {
     @FXML
     private HBox blockMask;
 
-    public EditorView(MasterPresenter presenter) {
+    public EditorView(MoviePresenter presenter) {
         this.presenter = presenter;
         load();
     }
@@ -233,10 +233,10 @@ public class EditorView extends FXMLView implements Initializable {
     }
 
     private void setPoster(int id) {
-        URL resource = getClass().getResource("../../resources/posters/" + id + ".jpg");
+        URL resource = getClass().getResource("/posters/" + id + ".jpg");
 
         if (resource == null) {
-            resource = getClass().getResource("../../resources/posters/no_poster.gif");
+            resource = getClass().getResource("/posters/no_poster.gif");
         }
         posterImage.setImage(new Image(resource.toExternalForm()));
     }
