@@ -10,6 +10,7 @@ import ch.fhnw.oop2.project.view.table.TableView;
 import ch.fhnw.oop2.project.view.toolbar.ToolbarView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
@@ -41,6 +42,7 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
         // Using the stage for saving the file
         this.stage = stage;
         this.presenter = new MasterPresenter(MovieService.getInstance(), this);
+
         load();
     }
 
@@ -49,10 +51,6 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
         createToolbar();
         createTableView();
         createEditorView();
-        initializeListeners();
-    }
-
-    private void initializeListeners() {
     }
 
     private void createToolbar() {
@@ -118,7 +116,12 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
         tableView.filterMovies(str);
     }
 
-    public Stage getStage() {
-        return stage;
+    public void refreshView() {
+        borderPane.getChildren().remove(toolbarView.getView());
+        splitPane.getItems().clear();
+
+        createToolbar();
+        createTableView();
+        createEditorView();
     }
 }

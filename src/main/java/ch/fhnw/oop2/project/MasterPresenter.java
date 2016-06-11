@@ -2,12 +2,14 @@ package ch.fhnw.oop2.project;
 
 import ch.fhnw.oop2.project.service.DataService;
 import ch.fhnw.oop2.project.model.Movie;
+import ch.fhnw.oop2.project.view.FXMLView;
 import ch.fhnw.oop2.project.view.MovieView;
 import ch.fhnw.oop2.project.view.master.MasterView;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -93,21 +95,23 @@ public class MasterPresenter {
     }
 
     public void undo() {
+        System.out.println("undo");
+    }
+
+    public void redo() {
+        System.out.println("redo");
+    }
+
+    public void changeLanguage() {
         if (Locale.getDefault() == Locale.GERMAN) {
             Locale.setDefault(Locale.ENGLISH);
         } else {
             Locale.setDefault(Locale.GERMAN);
         }
-        Stage stage = view.getStage();
-        view = new MasterView(stage);
 
-        ObservableList<Node> children = stage.getScene().getRoot().getChildrenUnmodifiable();
-        children.clear();
-        children.add((Node) view);
-    }
-
-    public void redo() {
-        System.out.println("redo");
+        // Draw the subviews and remove the currently selected movie from selection
+        view.refreshView();
+        adjustStates(null, selectedMovie.get());
     }
 
     private void adjustStates(Movie movie, Movie oldMovie) {
