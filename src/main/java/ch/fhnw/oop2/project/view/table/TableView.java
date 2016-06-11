@@ -58,11 +58,15 @@ public class TableView extends FXMLView implements Initializable {
     private void initializeTableList() {
         list.addAll(presenter.getMovies());
 
+        yearColumn.setSortType(TableColumn.SortType.ASCENDING);
+
         // Use a filtered and sorted list for the table
         filteredList = new FilteredList<>(list, p -> true);
         SortedList<Movie> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(table.comparatorProperty());
         table.setItems(sortedList);
+
+        table.getSortOrder().add(yearColumn);
 
         table.setEditable(true);
     }
