@@ -6,8 +6,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -32,6 +35,12 @@ public class ToolbarView extends FXMLView implements Initializable {
     private Button redoButton;
 
     @FXML
+    private ImageView enLang;
+
+    @FXML
+    private ImageView deLang;
+
+    @FXML
     private TextField filterTextField;
 
     public ToolbarView(MasterPresenter presenter) {
@@ -42,6 +51,7 @@ public class ToolbarView extends FXMLView implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeListeners();
+        markActiveLanguage();
     }
 
     private void initializeListeners() {
@@ -50,10 +60,22 @@ public class ToolbarView extends FXMLView implements Initializable {
         removeButton.setOnMouseClicked(event -> presenter.remove());
         undoButton.setOnMouseClicked(event -> presenter.undo());
         redoButton.setOnMouseClicked(event -> presenter.redo());
+        enLang.setOnMouseClicked(event -> presenter.changeLanguage(Locale.ENGLISH));
+        deLang.setOnMouseClicked(event -> presenter.changeLanguage(Locale.GERMAN));
         filterTextField.textProperty().addListener((observable, oldValue, newValue) -> presenter.filter(newValue));
     }
 
     public void clearFilter() {
         filterTextField.textProperty().set("");
+    }
+
+    private void markActiveLanguage() {
+        if (Locale.getDefault() == Locale.GERMAN) {
+            enLang.getStyleClass().add("inactive");
+            deLang.getStyleClass().add("active");
+        } else {
+            enLang.getStyleClass().add("active");
+            deLang.getStyleClass().add("inactive");
+        }
     }
 }

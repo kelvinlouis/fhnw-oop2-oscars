@@ -102,11 +102,9 @@ public class MasterPresenter {
         System.out.println("redo");
     }
 
-    public void changeLanguage() {
-        if (Locale.getDefault() == Locale.GERMAN) {
-            Locale.setDefault(Locale.ENGLISH);
-        } else {
-            Locale.setDefault(Locale.GERMAN);
+    public void changeLanguage(Locale locale) {
+        if (Locale.getDefault() != locale) {
+            Locale.setDefault(locale);
         }
 
         // Draw the subviews and remove the currently selected movie from selection

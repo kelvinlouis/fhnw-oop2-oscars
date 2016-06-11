@@ -36,3 +36,7 @@
     -fx-background-position: right;
     -fx-padding: 2px 16px 2px 2px;
 }
+
+.inactive {
+    -fx-opacity: 0.4;
+}

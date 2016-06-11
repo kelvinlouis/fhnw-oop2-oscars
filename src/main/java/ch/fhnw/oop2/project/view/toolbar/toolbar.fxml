@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
-
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
 <ToolBar prefHeight="60.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
   <items>
     <Button fx:id="saveButton" mnemonicParsing="false" />
@@ -15,7 +19,29 @@
       <Separator orientation="VERTICAL" />
       <Button fx:id="undoButton" mnemonicParsing="false" />
       <Button fx:id="redoButton" mnemonicParsing="false" />
-      <HBox HBox.hgrow="ALWAYS" />
+      <Separator layoutX="80.0" layoutY="10.0" orientation="VERTICAL" />
+      <VBox prefHeight="0.0" prefWidth="100.0">
+         <children>
+            <HBox prefHeight="24.0" prefWidth="133.0" />
+         </children>
+      </VBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="58.0" spacing="10.0" HBox.hgrow="ALWAYS">
+         <children>
+            <ImageView fx:id="enLang" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
+               <image>
+                  <Image url="@../../resources/flags/us.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="deLang" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
+               <image>
+                  <Image url="@../../resources/flags/de.png" />
+               </image>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </ImageView>
+         </children></HBox>
+      <Separator layoutX="130.0" layoutY="10.0" orientation="VERTICAL" />
       <TextField fx:id="filterTextField" styleClass="filter" />
   </items>
 </ToolBar>
