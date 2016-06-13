@@ -13,8 +13,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * Created by Kelvin on 07-May-16.
@@ -54,6 +56,12 @@ public class MoviePresenter {
         view.changedTitle(movie);
     }
 
+    public void setTitleEnglish(String title) {
+        Movie movie = selectedMovie.get();
+        movie.setState(Movie.State.CHANGED);
+        movie.titleEnglishProperty().set(title);
+    }
+
     public void setMainActor(String actors) {
         Movie movie = selectedMovie.get();
         movie.setState(Movie.State.CHANGED);
@@ -66,6 +74,47 @@ public class MoviePresenter {
         movie.setState(Movie.State.CHANGED);
         movie.directorProperty().setValue(directors);
         view.changedDirector(movie);
+    }
+
+    public void setYearOfProduction(int year) {
+        Movie movie = selectedMovie.get();
+
+        movie.yearOfProductionProperty().setValue(year);
+    }
+
+    public void setDuration(int duration) {
+        Movie movie = selectedMovie.get();
+
+        movie.durationProperty().setValue(duration);
+    }
+
+    public void setStartDate(Optional<LocalDate> date) {
+        Movie movie = selectedMovie.get();
+
+        movie.startDateProperty().setValue(date);
+    }
+
+    public void setFsk(int fsk) {
+        Movie movie = selectedMovie.get();
+
+        movie.fskProperty().setValue(fsk);
+    }
+
+    public void setGenre(String genre) {
+        Movie movie = selectedMovie.get();
+        movie.genreProperty().setValue(genre);
+    }
+
+    public void setCountries(List<String> countries) {
+        Movie movie = selectedMovie.get();
+
+        movie.getCountry().setAll(countries);
+    }
+
+    public void setNumberOfOscars(int oscars) {
+        Movie movie = selectedMovie.get();
+
+        movie.numberOfOscarsProperty().setValue(oscars);
     }
 
     public void save() {

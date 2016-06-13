@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -26,26 +25,6 @@ public class Movie {
     private StringProperty genre = new SimpleStringProperty();
     private ObjectProperty<Optional<LocalDate>> startDate = new SimpleObjectProperty<>();
     private IntegerProperty numberOfOscars = new SimpleIntegerProperty();
-
-    @FunctionalInterface
-    public interface MovieStringSetter {
-        void set(Movie movie, String value);
-    }
-
-    @FunctionalInterface
-    public interface MovieIntegerSetter {
-        void set(Movie movie, int value);
-    }
-
-    @FunctionalInterface
-    public interface MovieDateSetter {
-        void set(Movie movie, Optional<LocalDate> value);
-    }
-
-    @FunctionalInterface
-    public interface MovieListGetter {
-        ObservableList<String> get(Movie movie);
-    }
 
     public enum State {
         UNTOUCHED, SELECTED, CHANGED, SELECTED_CHANGED;
@@ -69,6 +48,7 @@ public class Movie {
         setDuration(0);
         setFsk(0);
         setGenre("");
+        setNumberOfOscars(1);
         setStartDate(Optional.empty());
     }
 

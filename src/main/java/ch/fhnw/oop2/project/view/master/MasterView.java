@@ -6,7 +6,7 @@ import ch.fhnw.oop2.project.service.MovieService;
 import ch.fhnw.oop2.project.view.FXMLView;
 import ch.fhnw.oop2.project.view.MovieView;
 import ch.fhnw.oop2.project.view.editor.EditorView;
-import ch.fhnw.oop2.project.view.table.TableView;
+import ch.fhnw.oop2.project.view.table.MovieTableView;
 import ch.fhnw.oop2.project.view.toolbar.ToolbarView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,7 +33,7 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
     private SplitPane splitPane;
 
     private ToolbarView toolbarView;
-    private TableView tableView;
+    private MovieTableView tableView;
     private EditorView editorView;
 
 
@@ -58,7 +58,7 @@ public class MasterView extends FXMLView implements Initializable, MovieView {
     }
 
     private void createTableView() {
-        tableView = new TableView(presenter);
+        tableView = new MovieTableView(presenter);
         splitPane.getItems().add(tableView.getView());
     }
 

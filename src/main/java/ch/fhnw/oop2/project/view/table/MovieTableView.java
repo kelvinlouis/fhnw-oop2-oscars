@@ -10,6 +10,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.StringConverter;
 
@@ -19,7 +20,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Kelvin on 07-May-16.
  */
-public class TableView extends FXMLView implements Initializable {
+public class MovieTableView extends FXMLView implements Initializable {
     private MoviePresenter presenter;
     private ObservableList<Movie> list = FXCollections.observableArrayList();
     private FilteredList<Movie> filteredList;
@@ -43,7 +44,7 @@ public class TableView extends FXMLView implements Initializable {
     private TableColumn<Movie, String> mainActorColumn;
 
 
-    public TableView(MoviePresenter presenter) {
+    public MovieTableView(MoviePresenter presenter) {
         this.presenter = presenter;
         load();
     }

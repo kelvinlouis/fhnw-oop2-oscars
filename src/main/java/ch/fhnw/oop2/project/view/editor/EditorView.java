@@ -14,8 +14,11 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.util.StringConverter;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -104,6 +107,7 @@ public class EditorView extends FXMLView implements Initializable {
         initializeBindings();
         initializeListeners();
         changeFSKItems();
+        adjustDatePicker();
         disable();
     }
 
@@ -115,35 +119,32 @@ public class EditorView extends FXMLView implements Initializable {
     }
 
     private void initializeListeners() {
-        addListener(yearOfAwardSpinner, Movie::setYearOfAward);
-        addListener(titleTextField, Movie::setTitle);
-        addListener(titleEnTextField, Movie::setTitleEnglish);
-        addListener(mainActorTextField, Movie::setMainActor);
-        addListener(directorTextField, Movie::setDirector);
-        addListener(productionYearSpinner, Movie::setYearOfProduction);
-        addListener(durationSpinner, Movie::setDuration);
-        addListener(launchDatePicker, Movie::setStartDate);
-        addListener(fskComboBox, Movie::setFsk);
-        addListener(genreTextField, Movie::setGenre);
+        addListener(yearOfAwardSpinner, i -> presenter.setYearOfAward(i));
+        addListener(titleTextField, s -> presenter.setTitle(s));
+        addListener(titleEnTextField, s -> presenter.setTitleEnglish(s));
+        addListener(mainActorTextField,s -> presenter.setMainActor(s));
+        addListener(directorTextField, s -> presenter.setDirector(s));
+        addListener(productionYearSpinner, i -> presenter.setYearOfProduction(i));
+        addListener(durationSpinner, i -> presenter.setDuration(i));
+        addListener(launchDatePicker, localDate -> presenter.setStartDate(localDate));
+        addListener(fskComboBox, i -> presenter.setFsk(i));
+        addListener(genreTextField, s -> presenter.setGenre(s));
 
-        addListener(countryTextField, Movie::getCountry, "/", countries -> setFlags(countries));
-        addListener(oscarsSpinner, Movie::setNumberOfOscars, i -> setOscars(i));
-    }
+        addListener(countryTextField, "/", list -> {
+            presenter.setCountries(list);
+            setFlags(list);
+        });
 
-    private void addListener(TextInputControl element, Movie.MovieStringSetter setter) {
-        element.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && blockListeners == false) {
-                beforeSetNewValue();
-                setter.set(selectedMovie.get(), newValue);
-            }
+        addListener(oscarsSpinner, integer -> {
+            presenter.setNumberOfOscars(integer);
+            setOscars(integer);
         });
     }
 
-    private void addListener(Spinner element, Movie.MovieIntegerSetter setter, Consumer<Integer> con) {
+    private void addListener(Spinner element, Consumer<Integer> con) {
         element.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && blockListeners == false) {
                 beforeSetNewValue();
-                setter.set(selectedMovie.get(), (int) newValue);
 
                 if (con != null) {
                     // Execute a consumer after setting value
@@ -153,35 +154,52 @@ public class EditorView extends FXMLView implements Initializable {
         });
     }
 
-    private void addListener(Spinner element, Movie.MovieIntegerSetter setter) {
-        addListener(element, setter, null);
-    }
-
-    private void addListener(ComboBox<Integer> element, Movie.MovieIntegerSetter setter) {
-        element.valueProperty().addListener((observable, oldValue, newValue) -> {
+    private void addListener(TextInputControl element, Consumer<String> con) {
+        element.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && blockListeners == false) {
                 beforeSetNewValue();
-                setter.set(selectedMovie.get(), newValue);
+
+                if (con != null) {
+                    // Execute a consumer after setting value
+                    con.accept(newValue);
+                }
             }
         });
     }
 
-    private void addListener(DatePicker element, Movie.MovieDateSetter setter) {
+
+    private void addListener(ComboBox<Integer> element, Consumer<Integer> con) {
         element.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && blockListeners == false) {
                 beforeSetNewValue();
-                setter.set(selectedMovie.get(), Optional.of(newValue));
+
+                if (con != null) {
+                    // Execute a consumer after setting value
+                    con.accept(newValue);
+                }
             }
         });
     }
 
-    private void addListener(TextInputControl element, Movie.MovieListGetter getter, String splitter, Consumer<List<String>> con) {
+    private void addListener(DatePicker element, Consumer<Optional<LocalDate>> con) {
+        element.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && blockListeners == false) {
+                beforeSetNewValue();
+
+                if (con != null) {
+                    // Execute a consumer after setting value
+                    con.accept(Optional.of(newValue));
+                }
+            }
+        });
+    }
+
+    private void addListener(TextInputControl element, String splitter, Consumer<List<String>> con) {
         element.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && blockListeners == false) {
                 List<String> newList = Arrays.asList(newValue.split(splitter));
 
                 beforeSetNewValue();
-                getter.get(selectedMovie.get()).setAll(newList);
 
                 if (con != null) {
                     // Execute a consumer after setting values
@@ -189,10 +207,6 @@ public class EditorView extends FXMLView implements Initializable {
                 }
             }
         });
-    }
-
-    private void addListener(TextInputControl element, Movie.MovieListGetter getter, String splitter) {
-        addListener(element, getter, splitter, null);
     }
 
     private void beforeSetNewValue() {
@@ -250,11 +264,35 @@ public class EditorView extends FXMLView implements Initializable {
         oscarsContainer.getChildren().addAll(oscars);
     }
 
+    private void adjustDatePicker() {
+        launchDatePicker.setConverter(new StringConverter<LocalDate>() {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+            @Override
+            public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormatter);
+                } else {
+                    return null;
+                }
+            }
+        });
+    }
+
     private void changeFSKItems() {
         fskComboBox.setItems(fskItems);
 
         // Set the CellFactory property
-        fskComboBox.setCellFactory(new FSKCellFactory());
+        fskComboBox.setCellFactory(param -> new FSKCell());
 
         // Set the ButtonCell property
         fskComboBox.setButtonCell(new FSKCell());
@@ -339,14 +377,14 @@ public class EditorView extends FXMLView implements Initializable {
     }
 
     public void changedTitle(Movie movie) {
-         titleTextField.textProperty().set(movie.getTitle());
+        titleTextField.textProperty().set(movie.getTitle());
     }
 
     public void changedMainActor(Movie movie) {
-        titleTextField.textProperty().set(movie.getMainActor());
+        mainActorTextField.textProperty().set(movie.getMainActor());
     }
 
     public void changedDirector(Movie movie) {
-        titleTextField.textProperty().set(movie.getDirector());
+        directorTextField.textProperty().set(movie.getDirector());
     }
 }
