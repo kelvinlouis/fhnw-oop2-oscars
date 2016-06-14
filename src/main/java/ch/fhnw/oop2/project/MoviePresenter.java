@@ -45,12 +45,14 @@ public class MoviePresenter {
     public void setYearOfAward(int year) {
         Movie movie = selectedMovie.get();
 
+        movie.setState(Movie.State.CHANGED);
         movie.yearOfAwardProperty().setValue(year);
         view.changedYearOfAward(movie);
     }
 
     public void setTitle(String title) {
         Movie movie = selectedMovie.get();
+
         movie.setState(Movie.State.CHANGED);
         movie.titleProperty().set(title);
         view.changedTitle(movie);
@@ -58,12 +60,14 @@ public class MoviePresenter {
 
     public void setTitleEnglish(String title) {
         Movie movie = selectedMovie.get();
+
         movie.setState(Movie.State.CHANGED);
         movie.titleEnglishProperty().set(title);
     }
 
     public void setMainActor(String actors) {
         Movie movie = selectedMovie.get();
+
         movie.setState(Movie.State.CHANGED);
         movie.mainActorProperty().set(actors);
         view.changedMainActor(movie);
@@ -71,6 +75,7 @@ public class MoviePresenter {
 
     public void setDirector(String directors) {
         Movie movie = selectedMovie.get();
+
         movie.setState(Movie.State.CHANGED);
         movie.directorProperty().setValue(directors);
         view.changedDirector(movie);
@@ -79,41 +84,49 @@ public class MoviePresenter {
     public void setYearOfProduction(int year) {
         Movie movie = selectedMovie.get();
 
+        movie.setState(Movie.State.CHANGED);
         movie.yearOfProductionProperty().setValue(year);
     }
 
     public void setDuration(int duration) {
         Movie movie = selectedMovie.get();
 
+        movie.setState(Movie.State.CHANGED);
         movie.durationProperty().setValue(duration);
     }
 
     public void setStartDate(Optional<LocalDate> date) {
         Movie movie = selectedMovie.get();
 
+        movie.setState(Movie.State.CHANGED);
         movie.startDateProperty().setValue(date);
     }
 
     public void setFsk(int fsk) {
         Movie movie = selectedMovie.get();
 
+        movie.setState(Movie.State.CHANGED);
         movie.fskProperty().setValue(fsk);
     }
 
     public void setGenre(String genre) {
         Movie movie = selectedMovie.get();
+
+        movie.setState(Movie.State.CHANGED);
         movie.genreProperty().setValue(genre);
     }
 
     public void setCountries(List<String> countries) {
         Movie movie = selectedMovie.get();
 
+        movie.setState(Movie.State.CHANGED);
         movie.getCountry().setAll(countries);
     }
 
     public void setNumberOfOscars(int oscars) {
         Movie movie = selectedMovie.get();
 
+        movie.setState(Movie.State.CHANGED);
         movie.numberOfOscarsProperty().setValue(oscars);
     }
 

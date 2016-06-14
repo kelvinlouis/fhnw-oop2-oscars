@@ -70,6 +70,7 @@ public class MovieTableView extends FXMLView implements Initializable {
         table.getSortOrder().add(yearColumn);
 
         table.setEditable(true);
+        mainActorColumn.setMaxWidth(Double.MAX_VALUE);
     }
 
     private void initializeListeners() {

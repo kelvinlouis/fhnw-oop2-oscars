@@ -135,17 +135,15 @@ public class EditorView extends FXMLView implements Initializable {
             setFlags(list);
         });
 
-        addListener(oscarsSpinner, integer -> {
-            presenter.setNumberOfOscars(integer);
-            setOscars(integer);
+        addListener(oscarsSpinner, i -> {
+            presenter.setNumberOfOscars(i);
+            setOscars(i);
         });
     }
 
     private void addListener(Spinner element, Consumer<Integer> con) {
         element.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && blockListeners == false) {
-                beforeSetNewValue();
-
                 if (con != null) {
                     // Execute a consumer after setting value
                     con.accept((int) newValue);
@@ -157,8 +155,6 @@ public class EditorView extends FXMLView implements Initializable {
     private void addListener(TextInputControl element, Consumer<String> con) {
         element.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && blockListeners == false) {
-                beforeSetNewValue();
-
                 if (con != null) {
                     // Execute a consumer after setting value
                     con.accept(newValue);
@@ -171,8 +167,6 @@ public class EditorView extends FXMLView implements Initializable {
     private void addListener(ComboBox<Integer> element, Consumer<Integer> con) {
         element.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && blockListeners == false) {
-                beforeSetNewValue();
-
                 if (con != null) {
                     // Execute a consumer after setting value
                     con.accept(newValue);
@@ -184,8 +178,6 @@ public class EditorView extends FXMLView implements Initializable {
     private void addListener(DatePicker element, Consumer<Optional<LocalDate>> con) {
         element.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && blockListeners == false) {
-                beforeSetNewValue();
-
                 if (con != null) {
                     // Execute a consumer after setting value
                     con.accept(Optional.of(newValue));
@@ -199,18 +191,12 @@ public class EditorView extends FXMLView implements Initializable {
             if (newValue != null && blockListeners == false) {
                 List<String> newList = Arrays.asList(newValue.split(splitter));
 
-                beforeSetNewValue();
-
                 if (con != null) {
                     // Execute a consumer after setting values
                     con.accept(newList);
                 }
             }
         });
-    }
-
-    private void beforeSetNewValue() {
-        selectedMovie.get().setState(Movie.State.SELECTED_CHANGED);
     }
 
     private void refreshElements(Movie movie) {
